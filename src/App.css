@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+body {
+  cursor: url("/imgs/cursors/default.PNG"), auto;
+}
+button {
+  cursor: url("/imgs/cursors/pointer.PNG"), auto;
+
+}
