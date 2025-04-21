@@ -5,5 +5,62 @@ body {
 }
 button {
   cursor: url("/imgs/cursors/pointer.PNG"), auto;
+}
 
+.bluebg {
+  background-image: linear-gradient(to right, #a9c8de 2px, transparent 1px),
+    linear-gradient(to bottom, #a9c8de 2px, transparent 1px);
+}
+
+.greenbg {
+  background-image: linear-gradient(to right, #acdab0 2px, transparent 1px),
+    linear-gradient(to bottom, #acdab0 2px, transparent 1px);
+}
+
+.purplebg {
+  background-image: linear-gradient(to right, #d2adda 2px, transparent 1px),
+    linear-gradient(to bottom, #d2adda 2px, transparent 1px);
+}
+
+.redbg {
+  background-image: linear-gradient(to right, #daada6 2px, transparent 1px),
+    linear-gradient(to bottom, #daada6 2px, transparent 1px);
+}
+
+.yellowbg {
+  background-image: linear-gradient(to right, #e3d69f 2px, transparent 1px),
+    linear-gradient(to bottom, #e3d69f 2px, transparent 1px);
+}
+
+.purple-grid-bg {
+  background-color: #af6dbd;
+  opacity: 0.8;
+}
+
+.blue-grid-bg {
+  background-color: #639ec9;
+  opacity: 0.8;
+}
+
+.green-grid-bg {
+  background-color: #5dac65;
+  opacity: 0.8;
+}
+
+.yellow-grid-bg {
+  background-color: #d7c361;
+  opacity: 0.8;
+}
+
+.red-grid-bg {
+  background-color: #d4685b;
+  opacity: 0.8;
+}
+
+.colordiv {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  aspect-ratio: 16 / 9; 
+  width: 33%;  
 }
