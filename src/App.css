@@ -64,15 +64,34 @@ button, .pointer {
   aspect-ratio: 16 / 9;
 }
 
-.pack {
-  transition: transform 0.3s ease;
+.pack1 {
+  transition: transform 0.5s ease;
 }
-.zoom {
+
+.pack2 {
+  transition: transform 0.5s ease;
+
+}
+.zoom1 {
   position: absolute;
   transform: translate(30%, -10%) scale(2);
 }
 
-.zoom1 {
+.zoom2 {
+  position: absolute;
+  transform: translate(-30%, 25%) scale(3);
+}
+
+.zoom3 {
+  position: absolute;
+  transform: translate(-25%, -80%) scale(4);
+}
+.zoom4 {
+  position: absolute;
+  transform: translate(-60%, -80%) scale(4);
+}
+
+.smallZoom {
   position: absolute;
   transform:  scale(1.01);
 }
