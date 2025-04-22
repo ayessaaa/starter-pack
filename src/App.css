@@ -3,7 +3,7 @@
 body {
   cursor: url("/imgs/cursors/default.PNG"), auto;
 }
-button {
+button, .pointer {
   cursor: url("/imgs/cursors/pointer.PNG"), auto;
 }
 
@@ -61,6 +61,25 @@ button {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  aspect-ratio: 16 / 9; 
-  width: 33%;  
+  aspect-ratio: 16 / 9;
+}
+
+.pack {
+  transition: transform 0.3s ease;
+}
+.zoom {
+  position: absolute;
+  transform: translate(30%, -10%) scale(2);
+}
+
+.zoom1 {
+  position: absolute;
+  transform:  scale(1.01);
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
 }
