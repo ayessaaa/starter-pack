@@ -16,6 +16,16 @@ function App() {
   const [isBox4, setIsBox4] = useState(false);
   const [isBoxHover4, setIsBoxHover4] = useState(false);
 
+  function onClose(e, setIsBox) {
+    e.stopPropagation();
+    setIsBox(false);
+  }
+
+  function boxClick(setIsBox) {
+    setIsBox1(true);
+    setIsBoxHover1(false);
+  }
+
   useEffect(() => {
     const timer = window.setInterval(() => {
       setPackScale(false);
@@ -37,9 +47,9 @@ function App() {
               !isBox2 &
               !isBox3 &
               !isBox4 && "smallZoom"
-          } ${isBox1 && "zoom1"} ${isBox2 && "zoom2"} ${
-            isBox3 && "zoom3"
-          } ${isBox4 && "zoom4"} pack1`}
+          } ${isBox1 && "zoom1"} ${isBox2 && "zoom2"} ${isBox3 && "zoom3"} ${
+            isBox4 && "zoom4"
+          } pack1`}
         >
           <img
             src={`/imgs/bgs/${packColor}.PNG`}
@@ -50,10 +60,7 @@ function App() {
           <div className="flex">
             <div
               className={`pointer w-60 ml-65 mt-58 h-85 z-10`}
-              onClick={() => {
-                setIsBox1(true);
-                setIsBoxHover1(false);
-              }}
+              onClick={() => boxClick(setIsBox1)}
               onMouseEnter={() => {
                 if (setIsBox1) setIsBoxHover1(true);
               }}
@@ -61,16 +68,19 @@ function App() {
                 if (setIsBox1) setIsBoxHover1(false);
               }}
             >
-              <img
-                src="/imgs/x.PNG"
-                className={`w-7 ${
-                  !isBox1 && "hidden"
-                } transition-all ml-44 mt-8 hover:scale-105`}
-                onClick={(e) => {
-                  e.stopPropagation(); // Prevent div's onClick from firing
-                  setIsBox1(false);
-                }}
-              ></img>
+              <XButton
+                isBox={isBox1}
+                setIsBox={setIsBox1}
+                onClickX={
+                  isBox1 | isBox2 | isBox3 | isBox4 ? onClose : boxClick
+                }
+                margin="ml-44 mt-8"
+              />
+              <div className="flex mt-20 w-full px-5">
+                <Arrow direction="left" isBox={isBox1} />
+                <div className="flex-1"></div>
+                <Arrow direction="right" isBox={isBox1}/>
+              </div>
             </div>
             <div className="flex flex-col">
               <div
@@ -92,7 +102,7 @@ function App() {
                     !isBox2 && "hidden"
                   } transition-all ml-30 mt-5 hover:scale-105`}
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent div's onClick from firing
+                    e.stopPropagation();
                     setIsBox2(false);
                   }}
                 ></img>
@@ -117,29 +127,31 @@ function App() {
                       !isBox3 && "hidden"
                     } transition-all ml-13 mt-3.5 hover:scale-105`}
                     onClick={(e) => {
-                      e.stopPropagation(); // Prevent div's onClick from firing
+                      e.stopPropagation();
                       setIsBox3(false);
                     }}
                   ></img>
                 </div>
-                <div className={`pointer w-20 ml-5 mt-7 h-19 z-10`}
-                onClick={() => {
-                  setIsBox4(true);
-                  setIsBoxHover4(false);
-                }}
-                onMouseEnter={() => {
-                  if (setIsBox4) setIsBoxHover4(true);
-                }}
-                onMouseLeave={() => {
-                  if (setIsBox4) setIsBoxHover4(false);
-                }}>
+                <div
+                  className={`pointer w-20 ml-5 mt-7 h-19 z-10`}
+                  onClick={() => {
+                    setIsBox4(true);
+                    setIsBoxHover4(false);
+                  }}
+                  onMouseEnter={() => {
+                    if (setIsBox4) setIsBoxHover4(true);
+                  }}
+                  onMouseLeave={() => {
+                    if (setIsBox4) setIsBoxHover4(false);
+                  }}
+                >
                   <img
                     src="/imgs/x.PNG"
                     className={`w-2.5 ${
                       !isBox4 && "hidden"
                     } transition-all ml-13 mt-3.5 hover:scale-105`}
                     onClick={(e) => {
-                      e.stopPropagation(); // Prevent div's onClick from firing
+                      e.stopPropagation();
                       setIsBox4(false);
                     }}
                   ></img>
@@ -159,42 +171,42 @@ function App() {
             <ColorButton
               setPackColor={setPackColor}
               setPackScale={setPackScale}
-              c1="#d45b65"
-              c2="#d4685b"
-              c3="#51160d"
+              c1="hover:bg-[#d45b65]"
+              c2="bg-[#d4685b]"
+              c3="border-[#51160d]"
               color="red"
             />
             <ColorButton
               setPackColor={setPackColor}
               setPackScale={setPackScale}
-              c1="#deb75e"
-              c2="#dec95e"
-              c3="#51450d"
+              c1="hover:bg-[#deb75e]"
+              c2="bg-[#dec95e]"
+              c3="border-[#51450d]"
               color="yellow"
             />
             <ColorButton
               setPackColor={setPackColor}
               setPackScale={setPackScale}
-              c1="#9bbf6c"
-              c2="#5dac65"
-              c3="#0d5114"
+              c1="hover:bg-[#9bbf6c]"
+              c2="bg-[#5dac65]"
+              c3="border-[#0d5114]"
               color="green"
             />
 
             <ColorButton
               setPackColor={setPackColor}
               setPackScale={setPackScale}
-              c1="#5bb0d2"
-              c2="#639ec9"
-              c3="#0d3451"
+              c1="hover:bg-[#5bb0d2]"
+              c2="bg-[#639ec9]"
+              c3="border-[#0d3451]"
               color="blue"
             />
             <ColorButton
               setPackColor={setPackColor}
               setPackScale={setPackScale}
-              c1="#c96baf"
-              c2="#af6dbd"
-              c3="#470d53"
+              c1="hover:bg-[#c96baf]"
+              c2="bg-[#af6dbd]"
+              c3="border-[#470d53]"
               color="purple"
             />
           </div>
@@ -219,8 +231,31 @@ function ColorButton({ setPackColor, setPackScale, c1, c2, c3, color }) {
         setPackColor(color);
         setPackScale(true);
       }}
-      className={`w-12 h-12 my-auto hover:bg-[${c1}] bg-[${c2}] rounded-full transition-all border-6 border-[${c3}] hover:scale-105`}
+      className={`w-12 h-12 my-auto ${c1} ${c2} rounded-full transition-all border-6 ${c3} hover:scale-105`}
     ></button>
+  );
+}
+
+function XButton({ isBox, setIsBox, margin, onClickX }) {
+  return (
+    <img
+      src="/imgs/x.PNG"
+      className={`w-5 ${
+        !isBox && "opacity-0"
+      } transition-all ${margin} hover:scale-105`}
+      onClick={(e) => onClickX(e, setIsBox)}
+    />
+  );
+}
+
+function Arrow({ isBox, direction }) {
+  return (
+    <img
+      src="/imgs/left.PNG"
+      className={`size-8 delay-150 transition-all  ${direction === "right" ? "scale-x-[-1]" : ""} ${
+        !isBox && "opacity-0"
+      }`}
+    ></img>
   );
 }
 
