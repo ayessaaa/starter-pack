@@ -59,7 +59,9 @@ function App() {
           ></img>
           <div className="flex">
             <div
-              className={`pointer w-60 ml-65 mt-58 h-85 z-10`}
+              className={`${
+                !isBox1 && "pointer"
+              } w-60 ml-65 mt-58 h-85 z-10 flex flex-col`}
               onClick={() => boxClick(setIsBox1)}
               onMouseEnter={() => {
                 if (setIsBox1) setIsBoxHover1(true);
@@ -76,10 +78,56 @@ function App() {
                 }
                 margin="ml-44 mt-8"
               />
-              <div className="flex mt-20 w-full px-5">
+              <div className="flex items-center -mt-5 justify-center w-full pl-5 pr-4">
                 <Arrow direction="left" isBox={isBox1} />
-                <div className="flex-1"></div>
-                <Arrow direction="right" isBox={isBox1}/>
+                <div
+                  className={`flex-1 h-[350px] *:-ml-10 *:w-55 *:absolute 
+            }`}
+                >
+                  <img
+                    src="/imgs/box1/hairf.PNG"
+                    className={`z-60 animate__animated animate__faster ${
+                      packScale ? "animate__pulse" : ""
+                    }`}
+                  ></img>
+                  <img
+                    src="/imgs/box1/bottom.PNG"
+                    className={`z-50 animate__animated animate__faster ${
+                      packScale ? "animate__pulse" : ""
+                    }`}
+                  ></img>
+                  <img
+                    src="/imgs/box1/top.PNG"
+                    className={`z-40 animate__animated animate__faster ${
+                      packScale ? "animate__pulse" : ""
+                    }`}
+                  ></img>
+                  <img
+                    src="/imgs/box1/eyes.PNG"
+                    className={`z-30 animate__animated animate__faster ${
+                      packScale ? "animate__pulse" : ""
+                    }`}
+                  ></img>
+                  <img
+                    src="/imgs/box1/head.PNG"
+                    className={`z-20 animate__animated animate__faster ${
+                      packScale ? "animate__pulse" : ""
+                    }`}
+                  ></img>
+                  <img
+                    src="/imgs/box1/body.PNG"
+                    className={`z-10 animate__animated animate__faster ${
+                      packScale ? "animate__pulse" : ""
+                    }`}
+                  ></img>
+                  <img
+                    src="/imgs/box1/hairb.PNG"
+                    className={`z-0 animate__animated animate__faster ${
+                      packScale ? "animate__pulse" : ""
+                    }`}
+                  ></img>
+                </div>
+                <Arrow direction="right" isBox={isBox1} />
               </div>
             </div>
             <div className="flex flex-col">
@@ -240,7 +288,7 @@ function XButton({ isBox, setIsBox, margin, onClickX }) {
   return (
     <img
       src="/imgs/x.PNG"
-      className={`w-5 ${
+      className={`w-5 z-100 pointer ${
         !isBox && "opacity-0"
       } transition-all ${margin} hover:scale-105`}
       onClick={(e) => onClickX(e, setIsBox)}
@@ -252,9 +300,9 @@ function Arrow({ isBox, direction }) {
   return (
     <img
       src="/imgs/left.PNG"
-      className={`size-8 delay-150 transition-all  ${direction === "right" ? "scale-x-[-1]" : ""} ${
-        !isBox && "opacity-0"
-      }`}
+      className={`size-8 pointer delay-150 transition-all z-100  ${
+        direction === "right" ? "scale-x-[-1]" : ""
+      } ${!isBox && "opacity-0"}`}
     ></img>
   );
 }
