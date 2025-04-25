@@ -23,6 +23,7 @@ function App() {
   const [isBox4, setIsBox4] = useState(false);
   const [isBoxZoom4, setIsBoxZoom4] = useState(false);
   const [isBoxHover4, setIsBoxHover4] = useState(false);
+  const [box4, setBox4] = useState(1);
 
   const [skin, setSkin] = useState(1);
   const [hair, setHair] = useState(1);
@@ -462,6 +463,12 @@ function App() {
                   onClick={() => {
                     setIsBox4(true);
                     setIsBoxHover4(false);
+                    setIsBox1(false);
+                    setIsBoxZoom1(false);
+                    setIsBox3(false);
+                    setIsBoxZoom3(false);
+                    setIsBox2(false);
+                    setIsBoxZoom2(false);
                   }}
                   onMouseEnter={() => {
                     if (setIsBox4) setIsBoxHover4(true);
@@ -470,16 +477,63 @@ function App() {
                     if (setIsBox4) setIsBoxHover4(false);
                   }}
                 >
-                  <img
-                    src="/imgs/x.PNG"
-                    className={`w-2.5 ${
-                      !isBox4 && "hidden"
-                    } transition-all ml-13 mt-3.5 hover:scale-105`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsBox4(false);
-                    }}
-                  ></img>
+                  <div className="flex">
+                    <ZoomButton
+                      isBox={isBox4}
+                      setIsBox={setIsBox4}
+                      onClickZoom={
+                        isBox1 | isBox2 | isBox3 | isBox4 ? onZoom : boxClick
+                      }
+                      margin="ml-4 mt-4"
+                      isBoxZoom={isBoxZoom4}
+                      setIsBoxZoom={setIsBoxZoom4}
+                      w="w-2 z-100"
+                    />
+
+                    <XButton
+                      isBox={isBox4}
+                      setIsBox={setIsBox4}
+                      onClickX={
+                        isBox1 | isBox2 | isBox3 | isBox4 ? onClose : boxClick
+                      }
+                      margin="ml-7 mt-4"
+                      setIsBoxZoom={setIsBoxZoom4}
+                      w="w-2 z-100"
+                    />
+                  </div>
+
+                  <div className="flex items-center -mt-2 justify-center w-full pl-2.5 pr-3">
+                    <Arrow
+                      direction="left"
+                      isBox={isBox4}
+                      setPart={setBox4}
+                      part={box4}
+                      limit={4}
+                      size="size-3"
+                    />
+                    <div
+                      className={`flex-1 h-[60px]  *:absolute *:transition-all *:duration-300 ${
+                        isBox4
+                          ? "*:w-11 *:mt-2 *:-ml-1 "
+                          : "*:w-14 *:-ml-2.5 *:-mt-0.5 "
+                      }}`}
+                    >
+                      <img
+                        src={`/imgs/box4/${box4}.PNG`}
+                        className={`z-60 w animate__animated animate__faster ${
+                          packScale ? "animate__pulse" : ""
+                        }`}
+                      ></img>
+                    </div>
+                    <Arrow
+                      direction="right"
+                      isBox={isBox4}
+                      setPart={setBox4}
+                      part={box4}
+                      limit={4}
+                      size="size-3"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
