@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import html2canvas from "html2canvas";
 import "./App.css";
 
 function App() {
@@ -31,6 +32,8 @@ function App() {
   const [top, setTop] = useState(1);
   const [bottom, setBottom] = useState(1);
 
+  const characterRef = useRef(null);
+
   const hairbNumbers = [6, 7, 8];
   const partsLimit = { skin: 6, hair: 8, eyes: 2, top: 5, bottom: 4 };
 
@@ -55,6 +58,16 @@ function App() {
     setIsBoxHover(false);
   }
 
+  const handleSave = async () => {
+    if (characterRef.current) {
+      const canvas = await html2canvas(characterRef.current);
+      const link = document.createElement("a");
+      link.download = "my-starter-pack.png";
+      link.href = canvas.toDataURL();
+      link.click();
+    }
+  };
+
   useEffect(() => {
     const timer = window.setInterval(() => {
       setPackScale(false);
@@ -65,12 +78,12 @@ function App() {
     };
   }, [packColor]);
   return (
-    <>
+    <div  id="starter-pack">
       <GridBG packColor={packColor} />
 
-      <div className="flex flex-col items-center  transition-all">
-        <div
-          className={`w-250 absolute mx-auto mt-15 ${
+      <div  className="flex flex-col items-center  transition-all">
+        <div ref={characterRef}
+          className={`w-250 absolute mx-auto mt-15 pb-25 ${
             (isBoxHover1 | isBoxHover2 | isBoxHover3 | isBoxHover4) &
               !isBox1 &
               !isBox2 &
@@ -590,8 +603,14 @@ function App() {
             />
           </div>
         </div>
+      <img
+      src={`/imgs/save/${packColor}.PNG`}
+        onClick={handleSave}
+        className="-mt-15 w-50 rounded-3xl pointer hover:scale-105 transition-all"
+      >
+      </img>
       </div>
-    </>
+    </div>
   );
 }
 

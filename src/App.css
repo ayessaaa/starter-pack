@@ -84,11 +84,11 @@ button, .pointer {
 
 .zoom3 {
   position: absolute;
-  transform: translate(-25%, -80%) scale(4);
+  transform: translate(-35%, -50%) scale(5);
 }
 .zoom4 {
   position: absolute;
-  transform: translate(-60%, -80%) scale(4);
+  transform: translate(-85%, -50%) scale(5);
 }
 
 .smallZoom {
