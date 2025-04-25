@@ -8,7 +8,7 @@ function App() {
   const [isBox1, setIsBox1] = useState(false);
   const [isBoxZoom1, setIsBoxZoom1] = useState(false);
   const [isBoxHover1, setIsBoxHover1] = useState(false);
-  const [bodyPartActive, setBoxPartActive] = useState("hair")
+  const [bodyPartActive, setBoxPartActive] = useState("skin");
 
   const [isBox2, setIsBox2] = useState(false);
   const [isBoxHover2, setIsBoxHover2] = useState(false);
@@ -19,13 +19,20 @@ function App() {
   const [isBox4, setIsBox4] = useState(false);
   const [isBoxHover4, setIsBoxHover4] = useState(false);
 
-  const [hairf, setHairf] = useState(1);
+  const [skin, setSkin] = useState(1);
+  const [hair, setHair] = useState(1);
+  const [eyes, setEyes] = useState(1);
+  const [top, setTop] = useState(1);
+  const [bottom, setBottom] = useState(1);
+  
+
+  const hairbNumbers = [6, 7, 8];
+  const partsLimit = {skin:6, hair:8, eyes:2, top:5, bottom:4}
 
   function onClose(e, setIsBox, setIsBoxZoom) {
     e.stopPropagation();
     setIsBox(false);
     setIsBoxZoom(false);
-
   }
 
   function onZoom(e, isBoxZoom, setIsBoxZoom) {
@@ -112,8 +119,33 @@ function App() {
                 <Arrow
                   direction="left"
                   isBox={isBox1}
-                  setHairf={setHairf}
-                  hairf={hairf}
+                  setPart={
+                    bodyPartActive === "skin"
+                      ? setSkin
+                      : bodyPartActive === "hair"
+                      ? setHair
+                      : bodyPartActive === "eyes"
+                      ? setEyes
+                      : bodyPartActive === "top"
+                      ? setTop
+                      : bodyPartActive === "bottom"
+                      ? setBottom
+                      : ""
+                  }
+                  part={
+                    bodyPartActive === "skin"
+                      ? skin
+                      : bodyPartActive === "hair"
+                      ? hair
+                      : bodyPartActive === "eyes"
+                      ? eyes
+                      : bodyPartActive === "top"
+                      ? top
+                      : bodyPartActive === "bottom"
+                      ? bottom
+                      : ""
+                  }
+                  limit={partsLimit[bodyPartActive]}
                 />
                 <div
                   className={`flex-1 h-[265px]  *:absolute *:transition-all *:duration-300 ${
@@ -122,53 +154,81 @@ function App() {
             }`}
                 >
                   <img
-                    src={`/imgs/box1/hairf/${hairf}.PNG`}
+                    src={`/imgs/box1/hairf/${hair}.PNG`}
                     className={`z-60 animate__animated animate__faster ${
                       packScale ? "animate__pulse" : ""
                     }`}
                   ></img>
                   <img
-                    src="/imgs/box1/bottom.PNG"
+                    src={`/imgs/box1/bottom/${bottom}.PNG`}
                     className={`z-50 animate__animated animate__faster ${
                       packScale ? "animate__pulse" : ""
                     }`}
                   ></img>
                   <img
-                    src="/imgs/box1/top.PNG"
+                    src={`/imgs/box1/top/${top}.PNG`}
                     className={`z-40 animate__animated animate__faster ${
                       packScale ? "animate__pulse" : ""
                     }`}
                   ></img>
                   <img
-                    src="/imgs/box1/eyes.PNG"
+                    src={`/imgs/box1/eyes/${eyes}.PNG`}
                     className={`z-30 animate__animated animate__faster ${
                       packScale ? "animate__pulse" : ""
                     }`}
                   ></img>
                   <img
-                    src="/imgs/box1/head.PNG"
+                    src={`/imgs/box1/head/${skin}.PNG`}
                     className={`z-20 animate__animated animate__faster ${
                       packScale ? "animate__pulse" : ""
                     }`}
                   ></img>
                   <img
-                    src="/imgs/box1/body.PNG"
+                    src={`/imgs/box1/body/${skin}.PNG`}
                     className={`z-10 animate__animated animate__faster ${
                       packScale ? "animate__pulse" : ""
                     }`}
                   ></img>
-                  <img
-                    src="/imgs/box1/hairb.PNG"
-                    className={`z-0 animate__animated animate__faster ${
-                      packScale ? "animate__pulse" : ""
-                    }`}
-                  ></img>
+                  {hairbNumbers.includes(hair) && (
+                    <img
+                      src={`/imgs/box1/hairb/${hair}.PNG`}
+                      className={`z-0 animate__animated animate__faster ${
+                        packScale ? "animate__pulse" : ""
+                      }`}
+                    ></img>
+                  )}
                 </div>
                 <Arrow
                   direction="right"
                   isBox={isBox1}
-                  setHairf={setHairf}
-                  hairf={hairf}
+                  setPart={
+                    bodyPartActive === "skin"
+                      ? setSkin
+                      : bodyPartActive === "hair"
+                      ? setHair
+                      : bodyPartActive === "eyes"
+                      ? setEyes
+                      : bodyPartActive === "top"
+                      ? setTop
+                      : bodyPartActive === "bottom"
+                      ? setBottom
+                      : ""
+                  }
+                  part={
+                    bodyPartActive === "skin"
+                      ? skin
+                      : bodyPartActive === "hair"
+                      ? hair
+                      : bodyPartActive === "eyes"
+                      ? eyes
+                      : bodyPartActive === "top"
+                      ? top
+                      : bodyPartActive === "bottom"
+                      ? bottom
+                      : ""
+                  }
+                  limit={partsLimit[bodyPartActive]}
+
                 />
               </div>
               <div
@@ -177,33 +237,59 @@ function App() {
                 } transition-all duration-500`}
               >
                 <img
-                  className="size-8 pointer  hover:scale-105 transition-all"
-                  src={`/imgs/box1/parts-${bodyPartActive === "skin" ? "active":"na"}/skin.PNG`}
-                  onClick={()=>{setBoxPartActive("skin")}}
+                  className={`size-8 pointer  hover:scale-105 transition-all ${
+                    bodyPartActive === "skin" && "-translate-y-0.5"
+                  }`}
+                  src={`/imgs/box1/parts-${
+                    bodyPartActive === "skin" ? "active" : "na"
+                  }/${packColor}/skin.PNG`}
+                  onClick={() => {
+                    setBoxPartActive("skin");
+                  }}
                 ></img>
                 <img
-                  className="size-8 pointer hover:scale-105 transition-all"
-                  src={`/imgs/box1/parts-${bodyPartActive === "hair" ? "active":"na"}/hair.PNG`}
-                  onClick={()=>{setBoxPartActive("hair")}}
-
+                  className={`size-8 pointer hover:scale-105 transition-all ${
+                    bodyPartActive === "hair" && "-translate-y-0.5"
+                  }`}
+                  src={`/imgs/box1/parts-${
+                    bodyPartActive === "hair" ? "active" : "na"
+                  }/${packColor}/hair.PNG`}
+                  onClick={() => {
+                    setBoxPartActive("hair");
+                  }}
                 ></img>
                 <img
-                  className="size-8 pointer hover:scale-105 transition-all"
-                  src={`/imgs/box1/parts-${bodyPartActive === "eyes" ? "active":"na"}/eyes.PNG`}
-                  onClick={()=>{setBoxPartActive("eyes")}}
-
+                  className={`size-8 pointer hover:scale-105 transition-all ${
+                    bodyPartActive === "eyes" && "-translate-y-0.5"
+                  }`}
+                  src={`/imgs/box1/parts-${
+                    bodyPartActive === "eyes" ? "active" : "na"
+                  }/${packColor}/eyes.PNG`}
+                  onClick={() => {
+                    setBoxPartActive("eyes");
+                  }}
                 ></img>
                 <img
-                  className="size-8 pointer hover:scale-105 transition-all"
-                  src={`/imgs/box1/parts-${bodyPartActive === "top" ? "active":"na"}/top.PNG`}
-                  onClick={()=>{setBoxPartActive("top")}}
-
+                  className={`size-8 pointer hover:scale-105 transition-all ${
+                    bodyPartActive === "top" && "-translate-y-0.5"
+                  }`}
+                  src={`/imgs/box1/parts-${
+                    bodyPartActive === "top" ? "active" : "na"
+                  }/${packColor}/top.PNG`}
+                  onClick={() => {
+                    setBoxPartActive("top");
+                  }}
                 ></img>
                 <img
-                  className="size-8 pointer hover:scale-105 transition-all"
-                  src={`/imgs/box1/parts-${bodyPartActive === "bottom" ? "active":"na"}/bottom.PNG`}
-                  onClick={()=>{setBoxPartActive("bottom")}}
-
+                  className={`size-8 pointer hover:scale-105 transition-all ${
+                    bodyPartActive === "bottom" && "-translate-y-0.5"
+                  }`}
+                  src={`/imgs/box1/parts-${
+                    bodyPartActive === "bottom" ? "active" : "na"
+                  }/${packColor}/bottom.PNG`}
+                  onClick={() => {
+                    setBoxPartActive("bottom");
+                  }}
                 ></img>
               </div>
             </div>
@@ -361,7 +447,14 @@ function ColorButton({ setPackColor, setPackScale, c1, c2, c3, color }) {
   );
 }
 
-function ZoomButton({ isBox, setIsBox, margin, onClickZoom, isBoxZoom, setIsBoxZoom }) {
+function ZoomButton({
+  isBox,
+  setIsBox,
+  margin,
+  onClickZoom,
+  isBoxZoom,
+  setIsBoxZoom,
+}) {
   return (
     <img
       src={`/imgs/${isBoxZoom ? "unzoom" : "zoom"}.PNG`}
@@ -385,21 +478,21 @@ function XButton({ isBox, setIsBox, margin, onClickX, setIsBoxZoom }) {
   );
 }
 
-function Arrow({ isBox, direction, setHairf, hairf, boxClick }) {
+function Arrow({ isBox, direction, setPart, part, boxClick, limit}) {
   let operation = 0;
-  if ((direction === "right") & (hairf < 8)) {
+  if ((direction === "right") & (part < limit)) {
     operation = 1;
-  } else if ((direction === "left") & (hairf > 1)) {
+  } else if ((direction === "left") & (part > 1)) {
     operation = -1;
   }
   return (
     <img
       src="/imgs/left.PNG"
-      className={`size-8 pointer delay-150 transition-all z-100  ${
-        direction === "right" ? "scale-x-[-1]" : ""
+      className={`size-8 pointer transition-all z-100 hover:  ${
+        direction === "right" ? "hover:scale-x-[-1] scale-x-[-1] hover:scale-105 " : "hover:scale-y-105"
       } ${!isBox && "opacity-0"}`}
       onClick={() => {
-        isBox ? setHairf((prev) => prev + operation) : boxClick();
+        isBox ? setPart((prev) => prev + operation) : boxClick();
       }}
     ></img>
   );

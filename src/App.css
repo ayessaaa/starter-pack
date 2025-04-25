@@ -102,3 +102,7 @@ body {
   height: 100%;
   overflow: hidden;
 }
+
+.animate__fastest {
+  --animate-duration: 0.3s;
+}
