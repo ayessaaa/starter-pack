@@ -11,12 +11,17 @@ function App() {
   const [bodyPartActive, setBoxPartActive] = useState("skin");
 
   const [isBox2, setIsBox2] = useState(false);
+  const [isBoxZoom2, setIsBoxZoom2] = useState(false);
   const [isBoxHover2, setIsBoxHover2] = useState(false);
+  const [box2, setBox2] = useState(1);
 
   const [isBox3, setIsBox3] = useState(false);
+  const [isBoxZoom3, setIsBoxZoom3] = useState(false);
   const [isBoxHover3, setIsBoxHover3] = useState(false);
+  const [box3, setBox3] = useState(1);
 
   const [isBox4, setIsBox4] = useState(false);
+  const [isBoxZoom4, setIsBoxZoom4] = useState(false);
   const [isBoxHover4, setIsBoxHover4] = useState(false);
 
   const [skin, setSkin] = useState(1);
@@ -24,10 +29,9 @@ function App() {
   const [eyes, setEyes] = useState(1);
   const [top, setTop] = useState(1);
   const [bottom, setBottom] = useState(1);
-  
 
   const hairbNumbers = [6, 7, 8];
-  const partsLimit = {skin:6, hair:8, eyes:2, top:5, bottom:4}
+  const partsLimit = { skin: 6, hair: 8, eyes: 2, top: 5, bottom: 4 };
 
   function onClose(e, setIsBox, setIsBoxZoom) {
     e.stopPropagation();
@@ -71,9 +75,9 @@ function App() {
               !isBox2 &
               !isBox3 &
               !isBox4 && "smallZoom"
-          } ${isBoxZoom1 && "zoom1"} ${isBox2 && "zoom2"} ${
-            isBox3 && "zoom3"
-          } ${isBox4 && "zoom4"} pack1`}
+          } ${isBoxZoom1 && "zoom1"} ${isBoxZoom2 && "zoom2"} ${
+            isBoxZoom3 && "zoom3"
+          } ${isBoxZoom4 && "zoom4"} pack1`}
         >
           <img
             src={`/imgs/bgs/${packColor}.PNG`}
@@ -86,7 +90,15 @@ function App() {
               className={`${
                 !isBox1 && "pointer"
               } w-60 ml-65 mt-58 h-85 z-10 flex flex-col`}
-              onClick={() => boxClick(setIsBox1, setIsBoxHover1)}
+              onClick={() => {
+                boxClick(setIsBox1, setIsBoxHover1);
+                setIsBox2(false);
+                setIsBoxZoom2(false);
+                setIsBox3(false);
+                setIsBoxZoom3(false);
+                setIsBox4(false);
+                setIsBoxZoom4(false);
+              }}
               onMouseEnter={() => {
                 if (setIsBox1) setIsBoxHover1(true);
               }}
@@ -228,7 +240,6 @@ function App() {
                       : ""
                   }
                   limit={partsLimit[bodyPartActive]}
-
                 />
               </div>
               <div
@@ -299,6 +310,12 @@ function App() {
                 onClick={() => {
                   setIsBox2(true);
                   setIsBoxHover2(false);
+                  setIsBox1(false);
+                  setIsBoxZoom1(false);
+                  setIsBox3(false);
+                  setIsBoxZoom3(false);
+                  setIsBox4(false);
+                  setIsBoxZoom4(false);
                 }}
                 onMouseEnter={() => {
                   if (setIsBox2) setIsBoxHover2(true);
@@ -307,16 +324,61 @@ function App() {
                   if (setIsBox2) setIsBoxHover2(false);
                 }}
               >
-                <img
-                  src="/imgs/x.PNG"
-                  className={`w-5 ${
-                    !isBox2 && "hidden"
-                  } transition-all ml-30 mt-5 hover:scale-105`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsBox2(false);
-                  }}
-                ></img>
+                <div className="flex">
+                  <ZoomButton
+                    isBox={isBox2}
+                    setIsBox={setIsBox2}
+                    onClickZoom={
+                      isBox1 | isBox2 | isBox3 | isBox4 ? onZoom : boxClick
+                    }
+                    margin="ml-5 mt-5"
+                    isBoxZoom={isBoxZoom2}
+                    setIsBoxZoom={setIsBoxZoom2}
+                    w="w-4"
+                  />
+
+                  <XButton
+                    isBox={isBox2}
+                    setIsBox={setIsBox2}
+                    onClickX={
+                      isBox1 | isBox2 | isBox3 | isBox4 ? onClose : boxClick
+                    }
+                    margin="ml-23 mt-5"
+                    setIsBoxZoom={setIsBoxZoom2}
+                    w="w-4"
+                  />
+                </div>
+
+                <div className="flex items-center -mt-3 justify-center w-full pl-2.5 pr-2.5">
+                  <Arrow
+                    direction="left"
+                    isBox={isBox2}
+                    setPart={setBox2}
+                    part={box2}
+                    limit={5}
+                    size="size-6"
+                  />
+                  <div
+                    className={`flex-1 h-[90px]  *:absolute *:transition-all *:duration-300 ${
+                      isBox2 ? "*:w-25 *:-mt-1 " : "*:w-28 *:-ml-2 *:-mt-4 "
+                    }}`}
+                  >
+                    <img
+                      src={`/imgs/box2/${box2}.PNG`}
+                      className={`z-60 w animate__animated animate__faster ${
+                        packScale ? "animate__pulse" : ""
+                      }`}
+                    ></img>
+                  </div>
+                  <Arrow
+                    direction="right"
+                    isBox={isBox2}
+                    setPart={setBox2}
+                    part={box2}
+                    limit={5}
+                    size="size-6"
+                  />
+                </div>
               </div>
               <div className="flex">
                 <div
@@ -324,6 +386,12 @@ function App() {
                   onClick={() => {
                     setIsBox3(true);
                     setIsBoxHover3(false);
+                    setIsBox1(false);
+                    setIsBoxZoom1(false);
+                    setIsBox2(false);
+                    setIsBoxZoom2(false);
+                    setIsBox4(false);
+                    setIsBoxZoom4(false);
                   }}
                   onMouseEnter={() => {
                     if (setIsBox3) setIsBoxHover3(true);
@@ -332,16 +400,62 @@ function App() {
                     if (setIsBox3) setIsBoxHover3(false);
                   }}
                 >
-                  <img
-                    src="/imgs/x.PNG"
-                    className={`w-2.5 ${
-                      !isBox3 && "hidden"
-                    } transition-all ml-13 mt-3.5 hover:scale-105`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsBox3(false);
-                    }}
-                  ></img>
+                  <div className="flex">
+                    <ZoomButton
+                      isBox={isBox3}
+                      setIsBox={setIsBox3}
+                      onClickZoom={
+                        isBox1 | isBox2 | isBox3 | isBox4 ? onZoom : boxClick
+                      }
+                      margin="ml-4 mt-4"
+                      isBoxZoom={isBoxZoom3}
+                      setIsBoxZoom={setIsBoxZoom3}
+                      w="w-2"
+                    />
+
+                    <XButton
+                      isBox={isBox3}
+                      setIsBox={setIsBox3}
+                      onClickX={
+                        isBox1 | isBox2 | isBox3 | isBox4 ? onClose : boxClick
+                      }
+                      margin="ml-7 mt-4"
+                      setIsBoxZoom={setIsBoxZoom3}
+                      w="w-2"
+                    />
+                  </div>
+                  <div className="flex items-center -mt-2 justify-center w-full pl-2.5 pr-3">
+                    <Arrow
+                      direction="left"
+                      isBox={isBox3}
+                      setPart={setBox3}
+                      part={box3}
+                      limit={4}
+                      size="size-3"
+                    />
+                    <div
+                      className={`flex-1 h-[60px]  *:absolute *:transition-all *:duration-300 ${
+                        isBox3
+                          ? "*:w-11 *:mt-2 *:-ml-1 "
+                          : "*:w-14 *:-ml-2.5 *:-mt-0.5 "
+                      }}`}
+                    >
+                      <img
+                        src={`/imgs/box3/${box3}.PNG`}
+                        className={`z-60 w animate__animated animate__faster ${
+                          packScale ? "animate__pulse" : ""
+                        }`}
+                      ></img>
+                    </div>
+                    <Arrow
+                      direction="right"
+                      isBox={isBox3}
+                      setPart={setBox3}
+                      part={box3}
+                      limit={4}
+                      size="size-3"
+                    />
+                  </div>
                 </div>
                 <div
                   className={`pointer w-20 ml-5 mt-7 h-19 z-10`}
@@ -454,11 +568,12 @@ function ZoomButton({
   onClickZoom,
   isBoxZoom,
   setIsBoxZoom,
+  w = "w-5",
 }) {
   return (
     <img
       src={`/imgs/${isBoxZoom ? "unzoom" : "zoom"}.PNG`}
-      className={`w-5 z-100 pointer ${
+      className={`${w} z-100 pointer ${
         !isBox && "opacity-0"
       } transition-all ${margin} hover:scale-105`}
       onClick={(e) => onClickZoom(e, isBoxZoom, setIsBoxZoom)}
@@ -466,11 +581,18 @@ function ZoomButton({
   );
 }
 
-function XButton({ isBox, setIsBox, margin, onClickX, setIsBoxZoom }) {
+function XButton({
+  isBox,
+  setIsBox,
+  margin,
+  onClickX,
+  setIsBoxZoom,
+  w = "w-5",
+}) {
   return (
     <img
       src="/imgs/x.PNG"
-      className={`w-5 z-100 pointer ${
+      className={`${w} z-100 pointer ${
         !isBox && "opacity-0"
       } transition-all ${margin} hover:scale-105`}
       onClick={(e) => onClickX(e, setIsBox, setIsBoxZoom)}
@@ -478,7 +600,16 @@ function XButton({ isBox, setIsBox, margin, onClickX, setIsBoxZoom }) {
   );
 }
 
-function Arrow({ isBox, direction, setPart, part, boxClick, limit}) {
+function Arrow({
+  isBox,
+  direction,
+  setPart,
+  part,
+  boxClick,
+  limit,
+  size = "size-8",
+  margin,
+}) {
   let operation = 0;
   if ((direction === "right") & (part < limit)) {
     operation = 1;
@@ -488,8 +619,10 @@ function Arrow({ isBox, direction, setPart, part, boxClick, limit}) {
   return (
     <img
       src="/imgs/left.PNG"
-      className={`size-8 pointer transition-all z-100 hover:  ${
-        direction === "right" ? "hover:scale-x-[-1] scale-x-[-1] hover:scale-105 " : "hover:scale-y-105"
+      className={`${size} pointer transition-all z-100 ${margin} hover:  ${
+        direction === "right"
+          ? "hover:scale-x-[-1] scale-x-[-1] hover:scale-105 "
+          : "hover:scale-y-105"
       } ${!isBox && "opacity-0"}`}
       onClick={() => {
         isBox ? setPart((prev) => prev + operation) : boxClick();
