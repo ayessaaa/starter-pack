@@ -100,7 +100,7 @@ function App() {
       <div className="flex flex-col items-center  transition-all">
         <div
           ref={characterRef}
-          className={`w-250 absolute mx-auto mt-15 pb-25 ${
+          className={`w-250 absolute mx-auto mt-5 pb-25 ${
             (isBoxHover1 | isBoxHover2 | isBoxHover3 | isBoxHover4) &
               !isBox1 &
               !isBox2 &
@@ -571,7 +571,7 @@ function App() {
         </div>
 
         <div
-          className="w-120 colordiv mt-160 -ml-7"
+          className="w-120 colordiv mt-150 -ml-7"
           style={{
             backgroundImage: `url('/imgs/colordivs/${packColor}.PNG')`,
           }}
