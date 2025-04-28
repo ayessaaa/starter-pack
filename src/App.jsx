@@ -32,6 +32,8 @@ function App() {
   const [top, setTop] = useState(1);
   const [bottom, setBottom] = useState(1);
 
+  const [isMusicActive, setIsMusicActive] = useState(false);
+
   const characterRef = useRef(null);
 
   const hairbNumbers = [6, 7, 8];
@@ -58,6 +60,20 @@ function App() {
     setIsBoxHover(false);
   }
 
+  function startMusic() {
+    const music = document.getElementById("bgmusic");
+    music.volume = 0.4;
+    if (isMusicActive) {
+      music.pause();
+      setIsMusicActive(false);
+    } else {
+      music.play().catch((e) => {
+        console.log("Autoplay prevented:", e);
+      });
+      setIsMusicActive(true);
+    }
+  }
+
   const handleSave = async () => {
     if (characterRef.current) {
       const canvas = await html2canvas(characterRef.current);
@@ -78,11 +94,12 @@ function App() {
     };
   }, [packColor]);
   return (
-    <div  id="starter-pack">
+    <div id="starter-pack">
       <GridBG packColor={packColor} />
 
-      <div  className="flex flex-col items-center  transition-all">
-        <div ref={characterRef}
+      <div className="flex flex-col items-center  transition-all">
+        <div
+          ref={characterRef}
           className={`w-250 absolute mx-auto mt-15 pb-25 ${
             (isBoxHover1 | isBoxHover2 | isBoxHover3 | isBoxHover4) &
               !isBox1 &
@@ -603,12 +620,25 @@ function App() {
             />
           </div>
         </div>
-      <img
-      src={`/imgs/save/${packColor}.PNG`}
-        onClick={handleSave}
-        className="-mt-15 w-50 rounded-3xl pointer hover:scale-105 transition-all"
-      >
-      </img>
+        <div className="flex -mt-15">
+          <audio
+            type="audio/mp3"
+            src="/music/bgmusic.mp3"
+            loop
+            id="bgmusic"
+          ></audio>
+          <img
+            src={`/imgs/music/${isMusicActive ? "active" : "notactive"}.PNG`}
+            onClick={startMusic}
+            className="h-20 hover:scale-105 transition-all pointer"
+          />
+
+          <img
+            src={`/imgs/save/${packColor}.PNG`}
+            onClick={handleSave}
+            className=" h-20 rounded-3xl pointer hover:scale-105 transition-all"
+          ></img>
+        </div>
       </div>
     </div>
   );
