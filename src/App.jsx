@@ -714,19 +714,24 @@ function Arrow({
   margin,
 }) {
   let operation = 0;
+  let opacity = "opacity-0"
   if ((direction === "right") & (part < limit)) {
     operation = 1;
+    opacity = "opacity-100"
+
   } else if ((direction === "left") & (part > 1)) {
     operation = -1;
+    opacity = "opacity-100"
+
   }
   return (
     <img
       src="/imgs/left.PNG"
-      className={`${size} pointer transition-all z-100 ${margin} hover:  ${
+      className={`${size}  ${ operation === 0 ? "default" : "pointer"} transition-all z-100 ${margin} hover:  ${
         direction === "right"
           ? "hover:scale-x-[-1] scale-x-[-1] hover:scale-105 "
           : "hover:scale-y-105"
-      } ${!isBox && "opacity-0"}`}
+      } ${!isBox ? "opacity-0" : opacity}`}
       onClick={() => {
         isBox ? setPart((prev) => prev + operation) : boxClick();
       }}

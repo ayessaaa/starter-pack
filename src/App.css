@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-body {
+body, .default {
   cursor: url("/imgs/cursors/default.PNG"), auto;
 }
 button, .pointer {
