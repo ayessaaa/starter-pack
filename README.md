@@ -19,3 +19,5 @@ a website to customize ur own starter pack!!
 ### tech used
 this project was made using react, html, css, tailwind, vite, js
 
+### music used
+[Game Music Loop 6 - XtremeFreddy (Pixabay)](https://pixabay.com/sound-effects/game-music-loop-6-144641/)
