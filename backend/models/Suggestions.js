@@ -12,4 +12,4 @@ const suggestionsSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-export const Book = mongoose.model("Suggestion", suggestionsSchema);
+export const Suggestion = mongoose.model("Suggestion", suggestionsSchema);
