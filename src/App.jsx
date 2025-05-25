@@ -39,6 +39,22 @@ function App() {
   const hairbNumbers = [6, 7, 8];
   const partsLimit = { skin: 6, hair: 8, eyes: 2, top: 5, bottom: 4 };
 
+  useEffect(() => {
+  const images = [
+    '/imgs/colordivs/blue.PNG',
+    '/imgs/colordivs/green.PNG',
+    '/imgs/colordivs/purple.PNG',
+    '/imgs/colordivs/red.PNG',
+    '/imgs/colordivs/yellow.PNG',
+  ];
+
+  images.forEach((src) => {
+    const img = new Image();
+    img.src = src;
+  });
+}, []);
+
+
   function onClose(e, setIsBox, setIsBoxZoom) {
     e.stopPropagation();
     setIsBox(false);
@@ -93,6 +109,8 @@ function App() {
       window.clearInterval(timer);
     };
   }, [packColor]);
+
+  
   return (
     <div id="starter-pack">
       <GridBG packColor={packColor} />
