@@ -40,20 +40,19 @@ function App() {
   const partsLimit = { skin: 6, hair: 8, eyes: 2, top: 5, bottom: 4 };
 
   useEffect(() => {
-  const images = [
-    '/imgs/colordivs/blue.PNG',
-    '/imgs/colordivs/green.PNG',
-    '/imgs/colordivs/purple.PNG',
-    '/imgs/colordivs/red.PNG',
-    '/imgs/colordivs/yellow.PNG',
-  ];
+    const images = [
+      "/imgs/colordivs/blue.PNG",
+      "/imgs/colordivs/green.PNG",
+      "/imgs/colordivs/purple.PNG",
+      "/imgs/colordivs/red.PNG",
+      "/imgs/colordivs/yellow.PNG",
+    ];
 
-  images.forEach((src) => {
-    const img = new Image();
-    img.src = src;
-  });
-}, []);
-
+    images.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
 
   function onClose(e, setIsBox, setIsBoxZoom) {
     e.stopPropagation();
@@ -110,464 +109,310 @@ function App() {
     };
   }, [packColor]);
 
-  
   return (
-    <div id="starter-pack">
-      <GridBG packColor={packColor} />
+    <div>
+      <div id="starter-pack">
+        <GridBG packColor={packColor} />
 
-      <div className="flex flex-col items-center  transition-all">
-        <div
-          ref={characterRef}
-          className={`w-250 absolute mx-auto mt-5 pb-25 ${
-            (isBoxHover1 | isBoxHover2 | isBoxHover3 | isBoxHover4) &
-              !isBox1 &
-              !isBox2 &
-              !isBox3 &
-              !isBox4 && "smallZoom"
-          } ${isBoxZoom1 && "zoom1"} ${isBoxZoom2 && "zoom2"} ${
-            isBoxZoom3 && "zoom3"
-          } ${isBoxZoom4 && "zoom4"} pack1`}
-        >
-          <img
-            src={`/imgs/bgs/${packColor}.PNG`}
-            className={`w-250 absolute mx-auto z-0 transition-all pack  animate__animated animate__faster ${
-              packScale ? "animate__pulse" : ""
-            }`}
-          ></img>
-          <div className="flex">
-            <div
-              className={`${
-                !isBox1 && "pointer"
-              } w-60 ml-65 mt-58 h-85 z-10 flex flex-col`}
-              onClick={() => {
-                boxClick(setIsBox1, setIsBoxHover1);
-                setIsBox2(false);
-                setIsBoxZoom2(false);
-                setIsBox3(false);
-                setIsBoxZoom3(false);
-                setIsBox4(false);
-                setIsBoxZoom4(false);
-              }}
-              onMouseEnter={() => {
-                if (setIsBox1) setIsBoxHover1(true);
-              }}
-              onMouseLeave={() => {
-                if (setIsBox1) setIsBoxHover1(false);
-              }}
-            >
-              <div className="flex">
-                <ZoomButton
-                  isBox={isBox1}
-                  setIsBox={setIsBox1}
-                  onClickZoom={
-                    isBox1 | isBox2 | isBox3 | isBox4 ? onZoom : boxClick
-                  }
-                  margin="ml-9 mt-8"
-                  isBoxZoom={isBoxZoom1}
-                  setIsBoxZoom={setIsBoxZoom1}
-                />
-                <XButton
-                  isBox={isBox1}
-                  setIsBox={setIsBox1}
-                  onClickX={
-                    isBox1 | isBox2 | isBox3 | isBox4 ? onClose : boxClick
-                  }
-                  margin="ml-31 mt-8"
-                  setIsBoxZoom={setIsBoxZoom1}
-                />
-              </div>
-              <div className="flex items-center -mt-5 justify-center w-full pl-5 pr-4">
-                <Arrow
-                  direction="left"
-                  isBox={isBox1}
-                  setPart={
-                    bodyPartActive === "skin"
-                      ? setSkin
-                      : bodyPartActive === "hair"
-                      ? setHair
-                      : bodyPartActive === "eyes"
-                      ? setEyes
-                      : bodyPartActive === "top"
-                      ? setTop
-                      : bodyPartActive === "bottom"
-                      ? setBottom
-                      : ""
-                  }
-                  part={
-                    bodyPartActive === "skin"
-                      ? skin
-                      : bodyPartActive === "hair"
-                      ? hair
-                      : bodyPartActive === "eyes"
-                      ? eyes
-                      : bodyPartActive === "top"
-                      ? top
-                      : bodyPartActive === "bottom"
-                      ? bottom
-                      : ""
-                  }
-                  limit={partsLimit[bodyPartActive]}
-                />
-                <div
-                  className={`flex-1 h-[265px]  *:absolute *:transition-all *:duration-300 ${
-                    isBox1 ? "*:w-50 *:-ml-8 " : "*:w-55 *:-ml-10 "
-                  }
-            }`}
-                >
-                  <img
-                    src={`/imgs/box1/hairf/${hair}.PNG`}
-                    className={`z-60 animate__animated animate__faster ${
-                      packScale ? "animate__pulse" : ""
-                    }`}
-                  ></img>
-                  <img
-                    src={`/imgs/box1/bottom/${bottom}.PNG`}
-                    className={`z-50 animate__animated animate__faster ${
-                      packScale ? "animate__pulse" : ""
-                    }`}
-                  ></img>
-                  <img
-                    src={`/imgs/box1/top/${top}.PNG`}
-                    className={`z-40 animate__animated animate__faster ${
-                      packScale ? "animate__pulse" : ""
-                    }`}
-                  ></img>
-                  <img
-                    src={`/imgs/box1/eyes/${eyes}.PNG`}
-                    className={`z-30 animate__animated animate__faster ${
-                      packScale ? "animate__pulse" : ""
-                    }`}
-                  ></img>
-                  <img
-                    src={`/imgs/box1/head/${skin}.PNG`}
-                    className={`z-20 animate__animated animate__faster ${
-                      packScale ? "animate__pulse" : ""
-                    }`}
-                  ></img>
-                  <img
-                    src={`/imgs/box1/body/${skin}.PNG`}
-                    className={`z-10 animate__animated animate__faster ${
-                      packScale ? "animate__pulse" : ""
-                    }`}
-                  ></img>
-                  {hairbNumbers.includes(hair) && (
-                    <img
-                      src={`/imgs/box1/hairb/${hair}.PNG`}
-                      className={`z-0 animate__animated animate__faster ${
-                        packScale ? "animate__pulse" : ""
-                      }`}
-                    ></img>
-                  )}
-                </div>
-                <Arrow
-                  direction="right"
-                  isBox={isBox1}
-                  setPart={
-                    bodyPartActive === "skin"
-                      ? setSkin
-                      : bodyPartActive === "hair"
-                      ? setHair
-                      : bodyPartActive === "eyes"
-                      ? setEyes
-                      : bodyPartActive === "top"
-                      ? setTop
-                      : bodyPartActive === "bottom"
-                      ? setBottom
-                      : ""
-                  }
-                  part={
-                    bodyPartActive === "skin"
-                      ? skin
-                      : bodyPartActive === "hair"
-                      ? hair
-                      : bodyPartActive === "eyes"
-                      ? eyes
-                      : bodyPartActive === "top"
-                      ? top
-                      : bodyPartActive === "bottom"
-                      ? bottom
-                      : ""
-                  }
-                  limit={partsLimit[bodyPartActive]}
-                />
-              </div>
+        <div className="flex flex-col items-center  transition-all">
+          <div
+            ref={characterRef}
+            className={`w-250 absolute mx-auto mt-5 pb-25 ${
+              (isBoxHover1 | isBoxHover2 | isBoxHover3 | isBoxHover4) &
+                !isBox1 &
+                !isBox2 &
+                !isBox3 &
+                !isBox4 && "smallZoom"
+            } ${isBoxZoom1 && "zoom1"} ${isBoxZoom2 && "zoom2"} ${
+              isBoxZoom3 && "zoom3"
+            } ${isBoxZoom4 && "zoom4"} pack1`}
+          >
+            <img
+              src={`/imgs/bgs/${packColor}.PNG`}
+              className={`w-250 absolute mx-auto z-0 transition-all pack  animate__animated animate__faster ${
+                packScale ? "animate__pulse" : ""
+              }`}
+            ></img>
+            <div className="flex">
               <div
-                className={` flex mx-auto gap-0.5 ${
-                  !isBox1 && "opacity-0"
-                } transition-all duration-500`}
-              >
-                <img
-                  className={`size-8 pointer  hover:scale-105 transition-all ${
-                    bodyPartActive === "skin" && "-translate-y-0.5"
-                  }`}
-                  src={`/imgs/box1/parts-${
-                    bodyPartActive === "skin" ? "active" : "na"
-                  }/${packColor}/skin.PNG`}
-                  onClick={() => {
-                    setBoxPartActive("skin");
-                  }}
-                ></img>
-                <img
-                  className={`size-8 pointer hover:scale-105 transition-all ${
-                    bodyPartActive === "hair" && "-translate-y-0.5"
-                  }`}
-                  src={`/imgs/box1/parts-${
-                    bodyPartActive === "hair" ? "active" : "na"
-                  }/${packColor}/hair.PNG`}
-                  onClick={() => {
-                    setBoxPartActive("hair");
-                  }}
-                ></img>
-                <img
-                  className={`size-8 pointer hover:scale-105 transition-all ${
-                    bodyPartActive === "eyes" && "-translate-y-0.5"
-                  }`}
-                  src={`/imgs/box1/parts-${
-                    bodyPartActive === "eyes" ? "active" : "na"
-                  }/${packColor}/eyes.PNG`}
-                  onClick={() => {
-                    setBoxPartActive("eyes");
-                  }}
-                ></img>
-                <img
-                  className={`size-8 pointer hover:scale-105 transition-all ${
-                    bodyPartActive === "top" && "-translate-y-0.5"
-                  }`}
-                  src={`/imgs/box1/parts-${
-                    bodyPartActive === "top" ? "active" : "na"
-                  }/${packColor}/top.PNG`}
-                  onClick={() => {
-                    setBoxPartActive("top");
-                  }}
-                ></img>
-                <img
-                  className={`size-8 pointer hover:scale-105 transition-all ${
-                    bodyPartActive === "bottom" && "-translate-y-0.5"
-                  }`}
-                  src={`/imgs/box1/parts-${
-                    bodyPartActive === "bottom" ? "active" : "na"
-                  }/${packColor}/bottom.PNG`}
-                  onClick={() => {
-                    setBoxPartActive("bottom");
-                  }}
-                ></img>
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <div
-                className={`pointer w-42 ml-8 mt-56 h-32 z-10`}
+                className={`${
+                  !isBox1 && "pointer"
+                } w-60 ml-65 mt-58 h-85 z-10 flex flex-col`}
                 onClick={() => {
-                  setIsBox2(true);
-                  setIsBoxHover2(false);
-                  setIsBox1(false);
-                  setIsBoxZoom1(false);
+                  boxClick(setIsBox1, setIsBoxHover1);
+                  setIsBox2(false);
+                  setIsBoxZoom2(false);
                   setIsBox3(false);
                   setIsBoxZoom3(false);
                   setIsBox4(false);
                   setIsBoxZoom4(false);
                 }}
                 onMouseEnter={() => {
-                  if (setIsBox2) setIsBoxHover2(true);
+                  if (setIsBox1) setIsBoxHover1(true);
                 }}
                 onMouseLeave={() => {
-                  if (setIsBox2) setIsBoxHover2(false);
+                  if (setIsBox1) setIsBoxHover1(false);
                 }}
               >
                 <div className="flex">
                   <ZoomButton
-                    isBox={isBox2}
-                    setIsBox={setIsBox2}
+                    isBox={isBox1}
+                    setIsBox={setIsBox1}
                     onClickZoom={
                       isBox1 | isBox2 | isBox3 | isBox4 ? onZoom : boxClick
                     }
-                    margin="ml-5 mt-5"
-                    isBoxZoom={isBoxZoom2}
-                    setIsBoxZoom={setIsBoxZoom2}
-                    w="w-4"
+                    margin="ml-9 mt-8"
+                    isBoxZoom={isBoxZoom1}
+                    setIsBoxZoom={setIsBoxZoom1}
                   />
-
                   <XButton
-                    isBox={isBox2}
-                    setIsBox={setIsBox2}
+                    isBox={isBox1}
+                    setIsBox={setIsBox1}
                     onClickX={
                       isBox1 | isBox2 | isBox3 | isBox4 ? onClose : boxClick
                     }
-                    margin="ml-23 mt-5"
-                    setIsBoxZoom={setIsBoxZoom2}
-                    w="w-4"
+                    margin="ml-31 mt-8"
+                    setIsBoxZoom={setIsBoxZoom1}
                   />
                 </div>
-
-                <div className="flex items-center -mt-3 justify-center w-full pl-2.5 pr-2.5">
+                <div className="flex items-center -mt-5 justify-center w-full pl-5 pr-4">
                   <Arrow
                     direction="left"
-                    isBox={isBox2}
-                    setPart={setBox2}
-                    part={box2}
-                    limit={5}
-                    size="size-6"
+                    isBox={isBox1}
+                    setPart={
+                      bodyPartActive === "skin"
+                        ? setSkin
+                        : bodyPartActive === "hair"
+                        ? setHair
+                        : bodyPartActive === "eyes"
+                        ? setEyes
+                        : bodyPartActive === "top"
+                        ? setTop
+                        : bodyPartActive === "bottom"
+                        ? setBottom
+                        : ""
+                    }
+                    part={
+                      bodyPartActive === "skin"
+                        ? skin
+                        : bodyPartActive === "hair"
+                        ? hair
+                        : bodyPartActive === "eyes"
+                        ? eyes
+                        : bodyPartActive === "top"
+                        ? top
+                        : bodyPartActive === "bottom"
+                        ? bottom
+                        : ""
+                    }
+                    limit={partsLimit[bodyPartActive]}
                   />
                   <div
-                    className={`flex-1 h-[90px]  *:absolute *:transition-all *:duration-300 ${
-                      isBox2 ? "*:w-25 *:-mt-1 " : "*:w-28 *:-ml-2 *:-mt-4 "
-                    }}`}
+                    className={`flex-1 h-[265px]  *:absolute *:transition-all *:duration-300 ${
+                      isBox1 ? "*:w-50 *:-ml-8 " : "*:w-55 *:-ml-10 "
+                    }
+            }`}
                   >
                     <img
-                      src={`/imgs/box2/${box2}.PNG`}
-                      className={`z-60 w animate__animated animate__faster ${
+                      src={`/imgs/box1/hairf/${hair}.PNG`}
+                      className={`z-60 animate__animated animate__faster ${
                         packScale ? "animate__pulse" : ""
                       }`}
                     ></img>
-                  </div>
-                  <Arrow
-                    direction="right"
-                    isBox={isBox2}
-                    setPart={setBox2}
-                    part={box2}
-                    limit={5}
-                    size="size-6"
-                  />
-                </div>
-              </div>
-              <div className="flex">
-                <div
-                  className={`pointer w-20 ml-8 mt-8 h-19 z-10`}
-                  onClick={() => {
-                    setIsBox3(true);
-                    setIsBoxHover3(false);
-                    setIsBox1(false);
-                    setIsBoxZoom1(false);
-                    setIsBox2(false);
-                    setIsBoxZoom2(false);
-                    setIsBox4(false);
-                    setIsBoxZoom4(false);
-                  }}
-                  onMouseEnter={() => {
-                    if (setIsBox3) setIsBoxHover3(true);
-                  }}
-                  onMouseLeave={() => {
-                    if (setIsBox3) setIsBoxHover3(false);
-                  }}
-                >
-                  <div className="flex">
-                    <ZoomButton
-                      isBox={isBox3}
-                      setIsBox={setIsBox3}
-                      onClickZoom={
-                        isBox1 | isBox2 | isBox3 | isBox4 ? onZoom : boxClick
-                      }
-                      margin="ml-4 mt-4"
-                      isBoxZoom={isBoxZoom3}
-                      setIsBoxZoom={setIsBoxZoom3}
-                      w="w-2"
-                    />
-
-                    <XButton
-                      isBox={isBox3}
-                      setIsBox={setIsBox3}
-                      onClickX={
-                        isBox1 | isBox2 | isBox3 | isBox4 ? onClose : boxClick
-                      }
-                      margin="ml-7 mt-4"
-                      setIsBoxZoom={setIsBoxZoom3}
-                      w="w-2"
-                    />
-                  </div>
-                  <div className="flex items-center -mt-2 justify-center w-full pl-2.5 pr-3">
-                    <Arrow
-                      direction="left"
-                      isBox={isBox3}
-                      setPart={setBox3}
-                      part={box3}
-                      limit={4}
-                      size="size-3"
-                    />
-                    <div
-                      className={`flex-1 h-[60px]  *:absolute *:transition-all *:duration-300 ${
-                        isBox3
-                          ? "*:w-11 *:mt-2 *:-ml-1 "
-                          : "*:w-14 *:-ml-2.5 *:-mt-0.5 "
-                      }}`}
-                    >
+                    <img
+                      src={`/imgs/box1/bottom/${bottom}.PNG`}
+                      className={`z-50 animate__animated animate__faster ${
+                        packScale ? "animate__pulse" : ""
+                      }`}
+                    ></img>
+                    <img
+                      src={`/imgs/box1/top/${top}.PNG`}
+                      className={`z-40 animate__animated animate__faster ${
+                        packScale ? "animate__pulse" : ""
+                      }`}
+                    ></img>
+                    <img
+                      src={`/imgs/box1/eyes/${eyes}.PNG`}
+                      className={`z-30 animate__animated animate__faster ${
+                        packScale ? "animate__pulse" : ""
+                      }`}
+                    ></img>
+                    <img
+                      src={`/imgs/box1/head/${skin}.PNG`}
+                      className={`z-20 animate__animated animate__faster ${
+                        packScale ? "animate__pulse" : ""
+                      }`}
+                    ></img>
+                    <img
+                      src={`/imgs/box1/body/${skin}.PNG`}
+                      className={`z-10 animate__animated animate__faster ${
+                        packScale ? "animate__pulse" : ""
+                      }`}
+                    ></img>
+                    {hairbNumbers.includes(hair) && (
                       <img
-                        src={`/imgs/box3/${box3}.PNG`}
-                        className={`z-60 w animate__animated animate__faster ${
+                        src={`/imgs/box1/hairb/${hair}.PNG`}
+                        className={`z-0 animate__animated animate__faster ${
                           packScale ? "animate__pulse" : ""
                         }`}
                       ></img>
-                    </div>
-                    <Arrow
-                      direction="right"
-                      isBox={isBox3}
-                      setPart={setBox3}
-                      part={box3}
-                      limit={4}
-                      size="size-3"
-                    />
+                    )}
                   </div>
+                  <Arrow
+                    direction="right"
+                    isBox={isBox1}
+                    setPart={
+                      bodyPartActive === "skin"
+                        ? setSkin
+                        : bodyPartActive === "hair"
+                        ? setHair
+                        : bodyPartActive === "eyes"
+                        ? setEyes
+                        : bodyPartActive === "top"
+                        ? setTop
+                        : bodyPartActive === "bottom"
+                        ? setBottom
+                        : ""
+                    }
+                    part={
+                      bodyPartActive === "skin"
+                        ? skin
+                        : bodyPartActive === "hair"
+                        ? hair
+                        : bodyPartActive === "eyes"
+                        ? eyes
+                        : bodyPartActive === "top"
+                        ? top
+                        : bodyPartActive === "bottom"
+                        ? bottom
+                        : ""
+                    }
+                    limit={partsLimit[bodyPartActive]}
+                  />
                 </div>
                 <div
-                  className={`pointer w-20 ml-5 mt-7 h-19 z-10`}
+                  className={` flex mx-auto gap-0.5 ${
+                    !isBox1 && "opacity-0"
+                  } transition-all duration-500`}
+                >
+                  <img
+                    className={`size-8 pointer  hover:scale-105 transition-all ${
+                      bodyPartActive === "skin" && "-translate-y-0.5"
+                    }`}
+                    src={`/imgs/box1/parts-${
+                      bodyPartActive === "skin" ? "active" : "na"
+                    }/${packColor}/skin.PNG`}
+                    onClick={() => {
+                      setBoxPartActive("skin");
+                    }}
+                  ></img>
+                  <img
+                    className={`size-8 pointer hover:scale-105 transition-all ${
+                      bodyPartActive === "hair" && "-translate-y-0.5"
+                    }`}
+                    src={`/imgs/box1/parts-${
+                      bodyPartActive === "hair" ? "active" : "na"
+                    }/${packColor}/hair.PNG`}
+                    onClick={() => {
+                      setBoxPartActive("hair");
+                    }}
+                  ></img>
+                  <img
+                    className={`size-8 pointer hover:scale-105 transition-all ${
+                      bodyPartActive === "eyes" && "-translate-y-0.5"
+                    }`}
+                    src={`/imgs/box1/parts-${
+                      bodyPartActive === "eyes" ? "active" : "na"
+                    }/${packColor}/eyes.PNG`}
+                    onClick={() => {
+                      setBoxPartActive("eyes");
+                    }}
+                  ></img>
+                  <img
+                    className={`size-8 pointer hover:scale-105 transition-all ${
+                      bodyPartActive === "top" && "-translate-y-0.5"
+                    }`}
+                    src={`/imgs/box1/parts-${
+                      bodyPartActive === "top" ? "active" : "na"
+                    }/${packColor}/top.PNG`}
+                    onClick={() => {
+                      setBoxPartActive("top");
+                    }}
+                  ></img>
+                  <img
+                    className={`size-8 pointer hover:scale-105 transition-all ${
+                      bodyPartActive === "bottom" && "-translate-y-0.5"
+                    }`}
+                    src={`/imgs/box1/parts-${
+                      bodyPartActive === "bottom" ? "active" : "na"
+                    }/${packColor}/bottom.PNG`}
+                    onClick={() => {
+                      setBoxPartActive("bottom");
+                    }}
+                  ></img>
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <div
+                  className={`pointer w-42 ml-8 mt-56 h-32 z-10`}
                   onClick={() => {
-                    setIsBox4(true);
-                    setIsBoxHover4(false);
+                    setIsBox2(true);
+                    setIsBoxHover2(false);
                     setIsBox1(false);
                     setIsBoxZoom1(false);
                     setIsBox3(false);
                     setIsBoxZoom3(false);
-                    setIsBox2(false);
-                    setIsBoxZoom2(false);
+                    setIsBox4(false);
+                    setIsBoxZoom4(false);
                   }}
                   onMouseEnter={() => {
-                    if (setIsBox4) setIsBoxHover4(true);
+                    if (setIsBox2) setIsBoxHover2(true);
                   }}
                   onMouseLeave={() => {
-                    if (setIsBox4) setIsBoxHover4(false);
+                    if (setIsBox2) setIsBoxHover2(false);
                   }}
                 >
                   <div className="flex">
                     <ZoomButton
-                      isBox={isBox4}
-                      setIsBox={setIsBox4}
+                      isBox={isBox2}
+                      setIsBox={setIsBox2}
                       onClickZoom={
                         isBox1 | isBox2 | isBox3 | isBox4 ? onZoom : boxClick
                       }
-                      margin="ml-4 mt-4"
-                      isBoxZoom={isBoxZoom4}
-                      setIsBoxZoom={setIsBoxZoom4}
-                      w="w-2 z-100"
+                      margin="ml-5 mt-5"
+                      isBoxZoom={isBoxZoom2}
+                      setIsBoxZoom={setIsBoxZoom2}
+                      w="w-4"
                     />
 
                     <XButton
-                      isBox={isBox4}
-                      setIsBox={setIsBox4}
+                      isBox={isBox2}
+                      setIsBox={setIsBox2}
                       onClickX={
                         isBox1 | isBox2 | isBox3 | isBox4 ? onClose : boxClick
                       }
-                      margin="ml-7 mt-4"
-                      setIsBoxZoom={setIsBoxZoom4}
-                      w="w-2 z-100"
+                      margin="ml-23 mt-5"
+                      setIsBoxZoom={setIsBoxZoom2}
+                      w="w-4"
                     />
                   </div>
 
-                  <div className="flex items-center -mt-2 justify-center w-full pl-2.5 pr-3">
+                  <div className="flex items-center -mt-3 justify-center w-full pl-2.5 pr-2.5">
                     <Arrow
                       direction="left"
-                      isBox={isBox4}
-                      setPart={setBox4}
-                      part={box4}
-                      limit={4}
-                      size="size-3"
+                      isBox={isBox2}
+                      setPart={setBox2}
+                      part={box2}
+                      limit={5}
+                      size="size-6"
                     />
                     <div
-                      className={`flex-1 h-[60px]  *:absolute *:transition-all *:duration-300 ${
-                        isBox4
-                          ? "*:w-11 *:mt-2 *:-ml-1 "
-                          : "*:w-14 *:-ml-2.5 *:-mt-0.5 "
+                      className={`flex-1 h-[90px]  *:absolute *:transition-all *:duration-300 ${
+                        isBox2 ? "*:w-25 *:-mt-1 " : "*:w-28 *:-ml-2 *:-mt-4 "
                       }}`}
                     >
                       <img
-                        src={`/imgs/box4/${box4}.PNG`}
+                        src={`/imgs/box2/${box2}.PNG`}
                         className={`z-60 w animate__animated animate__faster ${
                           packScale ? "animate__pulse" : ""
                         }`}
@@ -575,88 +420,244 @@ function App() {
                     </div>
                     <Arrow
                       direction="right"
-                      isBox={isBox4}
-                      setPart={setBox4}
-                      part={box4}
-                      limit={4}
-                      size="size-3"
+                      isBox={isBox2}
+                      setPart={setBox2}
+                      part={box2}
+                      limit={5}
+                      size="size-6"
                     />
+                  </div>
+                </div>
+                <div className="flex">
+                  <div
+                    className={`pointer w-20 ml-8 mt-8 h-19 z-10`}
+                    onClick={() => {
+                      setIsBox3(true);
+                      setIsBoxHover3(false);
+                      setIsBox1(false);
+                      setIsBoxZoom1(false);
+                      setIsBox2(false);
+                      setIsBoxZoom2(false);
+                      setIsBox4(false);
+                      setIsBoxZoom4(false);
+                    }}
+                    onMouseEnter={() => {
+                      if (setIsBox3) setIsBoxHover3(true);
+                    }}
+                    onMouseLeave={() => {
+                      if (setIsBox3) setIsBoxHover3(false);
+                    }}
+                  >
+                    <div className="flex">
+                      <ZoomButton
+                        isBox={isBox3}
+                        setIsBox={setIsBox3}
+                        onClickZoom={
+                          isBox1 | isBox2 | isBox3 | isBox4 ? onZoom : boxClick
+                        }
+                        margin="ml-4 mt-4"
+                        isBoxZoom={isBoxZoom3}
+                        setIsBoxZoom={setIsBoxZoom3}
+                        w="w-2"
+                      />
+
+                      <XButton
+                        isBox={isBox3}
+                        setIsBox={setIsBox3}
+                        onClickX={
+                          isBox1 | isBox2 | isBox3 | isBox4 ? onClose : boxClick
+                        }
+                        margin="ml-7 mt-4"
+                        setIsBoxZoom={setIsBoxZoom3}
+                        w="w-2"
+                      />
+                    </div>
+                    <div className="flex items-center -mt-2 justify-center w-full pl-2.5 pr-3">
+                      <Arrow
+                        direction="left"
+                        isBox={isBox3}
+                        setPart={setBox3}
+                        part={box3}
+                        limit={4}
+                        size="size-3"
+                      />
+                      <div
+                        className={`flex-1 h-[60px]  *:absolute *:transition-all *:duration-300 ${
+                          isBox3
+                            ? "*:w-11 *:mt-2 *:-ml-1 "
+                            : "*:w-14 *:-ml-2.5 *:-mt-0.5 "
+                        }}`}
+                      >
+                        <img
+                          src={`/imgs/box3/${box3}.PNG`}
+                          className={`z-60 w animate__animated animate__faster ${
+                            packScale ? "animate__pulse" : ""
+                          }`}
+                        ></img>
+                      </div>
+                      <Arrow
+                        direction="right"
+                        isBox={isBox3}
+                        setPart={setBox3}
+                        part={box3}
+                        limit={4}
+                        size="size-3"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className={`pointer w-20 ml-5 mt-7 h-19 z-10`}
+                    onClick={() => {
+                      setIsBox4(true);
+                      setIsBoxHover4(false);
+                      setIsBox1(false);
+                      setIsBoxZoom1(false);
+                      setIsBox3(false);
+                      setIsBoxZoom3(false);
+                      setIsBox2(false);
+                      setIsBoxZoom2(false);
+                    }}
+                    onMouseEnter={() => {
+                      if (setIsBox4) setIsBoxHover4(true);
+                    }}
+                    onMouseLeave={() => {
+                      if (setIsBox4) setIsBoxHover4(false);
+                    }}
+                  >
+                    <div className="flex">
+                      <ZoomButton
+                        isBox={isBox4}
+                        setIsBox={setIsBox4}
+                        onClickZoom={
+                          isBox1 | isBox2 | isBox3 | isBox4 ? onZoom : boxClick
+                        }
+                        margin="ml-4 mt-4"
+                        isBoxZoom={isBoxZoom4}
+                        setIsBoxZoom={setIsBoxZoom4}
+                        w="w-2 z-100"
+                      />
+
+                      <XButton
+                        isBox={isBox4}
+                        setIsBox={setIsBox4}
+                        onClickX={
+                          isBox1 | isBox2 | isBox3 | isBox4 ? onClose : boxClick
+                        }
+                        margin="ml-7 mt-4"
+                        setIsBoxZoom={setIsBoxZoom4}
+                        w="w-2 z-100"
+                      />
+                    </div>
+
+                    <div className="flex items-center -mt-2 justify-center w-full pl-2.5 pr-3">
+                      <Arrow
+                        direction="left"
+                        isBox={isBox4}
+                        setPart={setBox4}
+                        part={box4}
+                        limit={4}
+                        size="size-3"
+                      />
+                      <div
+                        className={`flex-1 h-[60px]  *:absolute *:transition-all *:duration-300 ${
+                          isBox4
+                            ? "*:w-11 *:mt-2 *:-ml-1 "
+                            : "*:w-14 *:-ml-2.5 *:-mt-0.5 "
+                        }}`}
+                      >
+                        <img
+                          src={`/imgs/box4/${box4}.PNG`}
+                          className={`z-60 w animate__animated animate__faster ${
+                            packScale ? "animate__pulse" : ""
+                          }`}
+                        ></img>
+                      </div>
+                      <Arrow
+                        direction="right"
+                        isBox={isBox4}
+                        setPart={setBox4}
+                        part={box4}
+                        limit={4}
+                        size="size-3"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div
-          className="w-120 colordiv mt-150 -ml-7"
-          style={{
-            backgroundImage: `url('/imgs/colordivs/${packColor}.PNG')`,
-          }}
-        >
-          <div className="h-full my-auto mx-auto w-fit flex gap-5">
-            <ColorButton
-              setPackColor={setPackColor}
-              setPackScale={setPackScale}
-              c1="hover:bg-[#d45b65]"
-              c2="bg-[#d4685b]"
-              c3="border-[#51160d]"
-              color="red"
-            />
-            <ColorButton
-              setPackColor={setPackColor}
-              setPackScale={setPackScale}
-              c1="hover:bg-[#deb75e]"
-              c2="bg-[#dec95e]"
-              c3="border-[#51450d]"
-              color="yellow"
-            />
-            <ColorButton
-              setPackColor={setPackColor}
-              setPackScale={setPackScale}
-              c1="hover:bg-[#9bbf6c]"
-              c2="bg-[#5dac65]"
-              c3="border-[#0d5114]"
-              color="green"
+          <div
+            className="w-120 colordiv mt-150 -ml-7"
+            style={{
+              backgroundImage: `url('/imgs/colordivs/${packColor}.PNG')`,
+            }}
+          >
+            <div className="h-full my-auto mx-auto w-fit flex gap-5">
+              <ColorButton
+                setPackColor={setPackColor}
+                setPackScale={setPackScale}
+                c1="hover:bg-[#d45b65]"
+                c2="bg-[#d4685b]"
+                c3="border-[#51160d]"
+                color="red"
+              />
+              <ColorButton
+                setPackColor={setPackColor}
+                setPackScale={setPackScale}
+                c1="hover:bg-[#deb75e]"
+                c2="bg-[#dec95e]"
+                c3="border-[#51450d]"
+                color="yellow"
+              />
+              <ColorButton
+                setPackColor={setPackColor}
+                setPackScale={setPackScale}
+                c1="hover:bg-[#9bbf6c]"
+                c2="bg-[#5dac65]"
+                c3="border-[#0d5114]"
+                color="green"
+              />
+
+              <ColorButton
+                setPackColor={setPackColor}
+                setPackScale={setPackScale}
+                c1="hover:bg-[#5bb0d2]"
+                c2="bg-[#639ec9]"
+                c3="border-[#0d3451]"
+                color="blue"
+              />
+              <ColorButton
+                setPackColor={setPackColor}
+                setPackScale={setPackScale}
+                c1="hover:bg-[#c96baf]"
+                c2="bg-[#af6dbd]"
+                c3="border-[#470d53]"
+                color="purple"
+              />
+            </div>
+          </div>
+          <div className="flex -mt-15">
+            <audio
+              type="audio/mp3"
+              src="/music/bgmusic.mp3"
+              loop
+              id="bgmusic"
+            ></audio>
+            <img
+              src={`/imgs/music/${isMusicActive ? "active" : "notactive"}.PNG`}
+              onClick={startMusic}
+              className="h-20 hover:scale-105 transition-all pointer"
             />
 
-            <ColorButton
-              setPackColor={setPackColor}
-              setPackScale={setPackScale}
-              c1="hover:bg-[#5bb0d2]"
-              c2="bg-[#639ec9]"
-              c3="border-[#0d3451]"
-              color="blue"
-            />
-            <ColorButton
-              setPackColor={setPackColor}
-              setPackScale={setPackScale}
-              c1="hover:bg-[#c96baf]"
-              c2="bg-[#af6dbd]"
-              c3="border-[#470d53]"
-              color="purple"
-            />
+            <img
+              src={`/imgs/save/${packColor}.PNG`}
+              onClick={handleSave}
+              className=" h-20 rounded-3xl pointer hover:scale-105 transition-all"
+            ></img>
           </div>
         </div>
-        <div className="flex -mt-15">
-          <audio
-            type="audio/mp3"
-            src="/music/bgmusic.mp3"
-            loop
-            id="bgmusic"
-          ></audio>
-          <img
-            src={`/imgs/music/${isMusicActive ? "active" : "notactive"}.PNG`}
-            onClick={startMusic}
-            className="h-20 hover:scale-105 transition-all pointer"
-          />
-
-          <img
-            src={`/imgs/save/${packColor}.PNG`}
-            onClick={handleSave}
-            className=" h-20 rounded-3xl pointer hover:scale-105 transition-all"
-          ></img>
-        </div>
+        <Suggestions />
       </div>
     </div>
   );
@@ -732,26 +733,39 @@ function Arrow({
   margin,
 }) {
   let operation = 0;
-  let opacity = "opacity-0"
+  let opacity = "opacity-0";
   if ((direction === "right") & (part < limit)) {
     operation = 1;
-    opacity = "opacity-100"
-
+    opacity = "opacity-100";
   } else if ((direction === "left") & (part > 1)) {
     operation = -1;
-    opacity = "opacity-100"
-
+    opacity = "opacity-100";
   }
   return (
     <img
       src="/imgs/left.PNG"
-      className={`${size}  ${ operation === 0 ? "default" : "pointer"} transition-all z-100 ${margin} hover:  ${
+      className={`${size}  ${
+        operation === 0 ? "default" : "pointer"
+      } transition-all z-100 ${margin} hover:  ${
         direction === "right"
           ? "hover:scale-x-[-1] scale-x-[-1] hover:scale-105 "
           : "hover:scale-y-105"
       } ${!isBox ? "opacity-0" : opacity}`}
       onClick={() => {
         isBox ? setPart((prev) => prev + operation) : boxClick();
+      }}
+    ></img>
+  );
+}
+
+function Suggestions() {
+  return (
+    <img
+      src="/imgs/suggestions_icon.png"
+      className={` h-20 absolute top-10 right-10 pointer hover:scale-105 transition-all
+        `}
+      onClick={() => {
+        // isBox ? setPart((prev) => prev + operation) : boxClick();
       }}
     ></img>
   );

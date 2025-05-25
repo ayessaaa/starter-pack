@@ -2,6 +2,7 @@ import express, { response } from "express";
 import mongoose from "mongoose";
 import cors from 'cors'
 import dotenv from 'dotenv';
+import suggestionsRoutes from './routes/suggestionsRoutes.js';
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
   return res.status(234).send("welcome");
 });
 
+app.use("/suggestions", suggestionsRoutes)
 
 mongoose
   .connect(mongodb_url)
