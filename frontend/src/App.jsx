@@ -37,7 +37,7 @@ function App() {
   const characterRef = useRef(null);
 
   const hairbNumbers = [6, 7, 8];
-  const partsLimit = { skin: 6, hair: 8, eyes: 2, top: 5, bottom: 4 };
+  const partsLimit = { skin: 6, hair: 8, eyes: 2, top: 9, bottom: 5 };
 
   useEffect(() => {
     const images = [
@@ -657,7 +657,7 @@ function App() {
             ></img>
           </div>
         </div>
-        <Suggestions />
+        <Suggestions color={packColor} />
       </div>
     </div>
   );
@@ -758,16 +758,47 @@ function Arrow({
   );
 }
 
-function Suggestions() {
+function Suggestions({ color }) {
+  const [isSuggestionsIcon, setIsSuggestionsIcon] = useState(false);
+
+  function handleSuggestionsIconClick() {
+    setIsSuggestionsIcon((prev) => !prev);
+  }
   return (
-    <img
-      src="/imgs/suggestions_icon.png"
-      className={` h-20 absolute top-10 right-10 pointer hover:scale-105 transition-all
+    <>
+      <img
+        src={`/imgs/${
+          isSuggestionsIcon ? "suggestions_icon_active" : "suggestions_icon"
+        }/${color}.PNG`}
+        className={` h-20 absolute top-10 right-10 pointer hover:scale-105 transition-all
         `}
-      onClick={() => {
-        // isBox ? setPart((prev) => prev + operation) : boxClick();
-      }}
-    ></img>
+        onClick={() => {
+          handleSuggestionsIconClick();
+        }}
+      ></img>
+      <div className="absolute top-40 right-10 flex flex-col gap-3">
+
+      <Suggestion colorDark="#0d3451" colorLight="#639ec9" isSuggestion={isSuggestionsIcon} top="top-40"/>
+      <Suggestion colorDark="#0d3451" colorLight="#639ec9" isSuggestion={isSuggestionsIcon} top="top-65"/>
+      </div>
+    </>
+  );
+}
+
+function Suggestion({colorDark, colorLight, isSuggestion, top}) {
+  return (
+    <div className={`bg-white ${top} w-100 flex px-3 py-2 border-6 border-[${colorDark}] rounded-2xl gap-2 items-center animate__animated ${isSuggestion ? "animate__fadeInRight": "animate__fadeOutRight"}`}>
+      <img className="size-15" src="/imgs/suggestions_img/blue.PNG"></img>
+      <div className="flex-1">
+        <p className={`font-bold text-[${colorDark}] text-lg`}>ayessa</p>
+        <p className={`font-medium text-[${colorLight}]`}>i want more animals</p>
+      </div>
+      <div className="flex items-center right-0">
+
+      <img className="size-12 pointer" src="/imgs/suggestions_like/blue.PNG"></img>
+      <p className={`font-bold text-lg text-[${colorDark}]`}>1</p>
+      </div>
+    </div>
   );
 }
 
