@@ -777,28 +777,85 @@ function Suggestions({ color }) {
         }}
       ></img>
       <div className="absolute top-40 right-10 flex flex-col gap-3">
-
-      <Suggestion colorDark="#0d3451" colorLight="#639ec9" isSuggestion={isSuggestionsIcon} top="top-40"/>
-      <Suggestion colorDark="#0d3451" colorLight="#639ec9" isSuggestion={isSuggestionsIcon} top="top-65"/>
+        <Suggestion
+          colorDark="#0d3451"
+          colorLight="#639ec9"
+          isSuggestion={isSuggestionsIcon}
+        />
+        <Suggestion
+          colorDark="#0d3451"
+          colorLight="#639ec9"
+          isSuggestion={isSuggestionsIcon}
+        />
+        <SuggestionComment
+          colorDark="#0d3451"
+          colorLight="#639ec9"
+          isSuggestion={isSuggestionsIcon}
+          bgColor="bg-[#5bb0d2]"
+          borderColor="border-[#0d3451]"
+        />
       </div>
     </>
   );
 }
 
-function Suggestion({colorDark, colorLight, isSuggestion, top}) {
+function Suggestion({ colorDark, colorLight, isSuggestion }) {
   return (
-    <div className={`bg-white ${top} w-100 flex px-3 py-2 border-6 border-[${colorDark}] rounded-2xl gap-2 items-center animate__animated ${isSuggestion ? "animate__fadeInRight": "animate__fadeOutRight"}`}>
+    <div
+      className={`bg-white  w-100 flex px-3 py-2 border-6 border-[${colorDark}] rounded-2xl gap-2 items-center animate__animated ${
+        isSuggestion ? "animate__fadeInRight" : "animate__fadeOutRight"
+      }`}
+    >
       <img className="size-15" src="/imgs/suggestions_img/blue.PNG"></img>
       <div className="flex-1">
         <p className={`font-bold text-[${colorDark}] text-lg`}>ayessa</p>
-        <p className={`font-medium text-[${colorLight}]`}>i want more animals</p>
+        <p className={`font-medium text-[${colorLight}]`}>
+          i want more animals
+        </p>
       </div>
       <div className="flex items-center right-0">
-
-      <img className="size-12 pointer" src="/imgs/suggestions_like/blue.PNG"></img>
-      <p className={`font-bold text-lg text-[${colorDark}]`}>1</p>
+        <img
+          className="size-12 pointer"
+          src="/imgs/suggestions_like/blue.PNG"
+        ></img>
+        <p className={`font-bold text-lg text-[${colorDark}]`}>1</p>
       </div>
     </div>
+  );
+}
+
+function SuggestionComment({ colorDark, colorLight, isSuggestion, bgColor, borderColor }) {
+  return (
+    
+    <div
+      className={`${bgColor} ${top} w-100  px-3 pt-3 pb-3 border-6 border-[${colorDark}] rounded-2xl gap-2 items-center animate__animated ${
+        isSuggestion ? "animate__fadeInRight" : "animate__fadeOutRight"
+      }`}
+      >
+      <p className={`text-center font-bold text-white text-lg mb-4`}>comment your suggestions here!</p>
+      <div className="flex gap-3">
+
+      <img className="size-15" src="/imgs/suggestions_img/blue.PNG"></img>
+      <div className="flex-1 flex flex-col gap-1">
+        <input
+            className={`font-medium text-[${colorLight}] w-35 rounded-lg bg-white px-2  ${borderColor} border-4 focus:outline-0`}
+          ></input>
+        {/* <p className={`font-bold text-[${colorDark}] text-lg`}>ayessa</p> */}
+        <div className="flex gap-2">
+          <input
+            className={`font-medium text-[${colorLight}]  rounded-lg flex-1 bg-white px-2 py-1 ${borderColor} border-4 focus:outline-0`}
+          ></input>
+          <img
+            className="size-10 pointer"
+            src="/imgs/suggestions_send/blue.PNG"
+          ></img>
+        </div>
+        {/* <input className={`font-medium text-[${colorLight}]`}>i want more animals</input> */}
+      </div>
+      <div className="flex items-center right-0"></div>
+      </div>
+    </div>
+    
   );
 }
 
