@@ -58,7 +58,7 @@ function App() {
         console.log(error);
         setLoading(false);
       });
-  }, []);
+  }, [suggestions, setSuggestions]);
 
   useEffect(() => {
     const images = [
@@ -678,7 +678,11 @@ function App() {
             ></img>
           </div>
         </div>
-        <Suggestions color={packColor} suggestions={suggestions} />
+        <Suggestions
+          color={packColor}
+          suggestions={suggestions}
+          setSuggestions={setSuggestions}
+        />
       </div>
     </div>
   );
@@ -779,7 +783,7 @@ function Arrow({
   );
 }
 
-function Suggestions({ color, suggestions }) {
+function Suggestions({ color, suggestions, setSuggestions }) {
   const [isSuggestionsIcon, setIsSuggestionsIcon] = useState(false);
   console.log(suggestions);
 
@@ -810,6 +814,8 @@ function Suggestions({ color, suggestions }) {
           />
         ))}
         <SuggestionComment
+          suggestions={suggestions}
+          setSuggestions={setSuggestions}
           colorDark="#0d3451"
           colorLight="#639ec9"
           isSuggestion={isSuggestionsIcon}
@@ -821,7 +827,13 @@ function Suggestions({ color, suggestions }) {
   );
 }
 
-function Suggestion({ colorDark, colorLight, isSuggestion, author, text }) {
+function Suggestion({
+  colorDark,
+  colorLight,
+  isSuggestion,
+  author,
+  text,
+}) {
   return (
     <div
       className={`bg-white  w-100 flex px-3 py-2 border-6 border-[${colorDark}] rounded-2xl gap-2 items-center animate__animated ${
@@ -850,17 +862,17 @@ function SuggestionComment({
   isSuggestion,
   bgColor,
   borderColor,
+  suggestions,
+  setSuggestions,
 }) {
-
-  const [text, setText] = useState('asd');
-  const [author, setAuthor] = useState('asd');
-  const [skin, setSkin] = useState('');
-  const [hair, setHair] = useState('');
-  const [eyes, setEyes] = useState('');
-  const [likes, setLikes] = useState('');
+  const [text, setText] = useState("");
+  const [author, setAuthor] = useState("");
+  const [skin, setSkin] = useState("");
+  const [hair, setHair] = useState("");
+  const [eyes, setEyes] = useState("");
+  const [likes, setLikes] = useState("");
   const [time, setTime] = useState(83748385);
   const [loading, setLoading] = useState(false);
-
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -871,23 +883,26 @@ function SuggestionComment({
       hair,
       eyes,
       likes,
-      time
+      time,
     };
     setLoading(true);
     axios
       .post(`${API_URL}/suggestions`, data)
       .then(() => {
         setLoading(false);
-        console.log(data)
+        setSuggestions(prev => [...prev, data])
       })
       .catch((error) => {
         setLoading(false);
-        alert('An error happened. Please Chack console');
+        alert("An error happened. Please Chack console");
         console.log(error);
       });
-  }
 
-  
+    setText("")
+    setAuthor("")
+
+    
+  }
 
   return (
     <div
@@ -905,12 +920,18 @@ function SuggestionComment({
           onSubmit={handleSubmit}
           className="flex-1 flex flex-col gap-1"
         >
-          <input name="author"
+          <input
+            name="author"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
             className={`font-medium text-[${colorLight}] w-35 rounded-lg bg-white px-2  ${borderColor} border-4 focus:outline-0`}
           ></input>
           {/* <p className={`font-bold text-[${colorDark}] text-lg`}>ayessa</p> */}
           <div className="flex gap-2">
-            <input name="text"
+            <input
+              name="text"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
               className={`font-medium text-[${colorLight}]  rounded-lg flex-1 bg-white px-2 py-1 ${borderColor} border-4 focus:outline-0`}
             ></input>
             <button>
