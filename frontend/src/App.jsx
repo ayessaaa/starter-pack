@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import "./App.css";
+import axios from "axios";
 
 function App() {
   const [packColor, setPackColor] = useState("blue");
@@ -38,6 +39,24 @@ function App() {
 
   const hairbNumbers = [6, 7, 8];
   const partsLimit = { skin: 6, hair: 8, eyes: 2, top: 9, bottom: 5 };
+
+  const [suggestions, setSuggestions] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`http://localhost:5000/suggestions/`)
+      .then((response) => {
+        setSuggestions(response.data.data);
+        console.log(response.data.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+  }, []);
 
   useEffect(() => {
     const images = [
@@ -657,7 +676,7 @@ function App() {
             ></img>
           </div>
         </div>
-        <Suggestions color={packColor} />
+        <Suggestions color={packColor} suggestions={suggestions} />
       </div>
     </div>
   );
@@ -758,8 +777,9 @@ function Arrow({
   );
 }
 
-function Suggestions({ color }) {
+function Suggestions({ color, suggestions }) {
   const [isSuggestionsIcon, setIsSuggestionsIcon] = useState(false);
+  console.log(suggestions);
 
   function handleSuggestionsIconClick() {
     setIsSuggestionsIcon((prev) => !prev);
@@ -777,16 +797,16 @@ function Suggestions({ color }) {
         }}
       ></img>
       <div className="absolute top-40 right-10 flex flex-col gap-3">
-        <Suggestion
-          colorDark="#0d3451"
-          colorLight="#639ec9"
-          isSuggestion={isSuggestionsIcon}
-        />
-        <Suggestion
-          colorDark="#0d3451"
-          colorLight="#639ec9"
-          isSuggestion={isSuggestionsIcon}
-        />
+        {suggestions.map((suggest, index) => (
+          <Suggestion
+            colorDark="#0d3451"
+            colorLight="#639ec9"
+            isSuggestion={isSuggestionsIcon}
+            author={suggest.author}
+            text={suggest.text}
+            key={index}
+          />
+        ))}
         <SuggestionComment
           colorDark="#0d3451"
           colorLight="#639ec9"
@@ -799,7 +819,7 @@ function Suggestions({ color }) {
   );
 }
 
-function Suggestion({ colorDark, colorLight, isSuggestion }) {
+function Suggestion({ colorDark, colorLight, isSuggestion, author, text }) {
   return (
     <div
       className={`bg-white  w-100 flex px-3 py-2 border-6 border-[${colorDark}] rounded-2xl gap-2 items-center animate__animated ${
@@ -808,10 +828,8 @@ function Suggestion({ colorDark, colorLight, isSuggestion }) {
     >
       <img className="size-15" src="/imgs/suggestions_img/blue.PNG"></img>
       <div className="flex-1">
-        <p className={`font-bold text-[${colorDark}] text-lg`}>ayessa</p>
-        <p className={`font-medium text-[${colorLight}]`}>
-          i want more animals
-        </p>
+        <p className={`font-bold text-[${colorDark}] text-lg`}>{author}</p>
+        <p className={`font-medium text-[${colorLight}]`}>{text}</p>
       </div>
       <div className="flex items-center right-0">
         <img
@@ -824,38 +842,87 @@ function Suggestion({ colorDark, colorLight, isSuggestion }) {
   );
 }
 
-function SuggestionComment({ colorDark, colorLight, isSuggestion, bgColor, borderColor }) {
+function SuggestionComment({
+  colorDark,
+  colorLight,
+  isSuggestion,
+  bgColor,
+  borderColor,
+}) {
+
+  const [text, setText] = useState('asd');
+  const [author, setAuthor] = useState('asd');
+  const [skin, setSkin] = useState('');
+  const [hair, setHair] = useState('');
+  const [eyes, setEyes] = useState('');
+  const [likes, setLikes] = useState('');
+  const [time, setTime] = useState(83748385);
+  const [loading, setLoading] = useState(false);
+
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    const data = {
+      text,
+      author,
+      skin,
+      hair,
+      eyes,
+      likes,
+      time
+    };
+    setLoading(true);
+    axios
+      .post('http://localhost:5000/suggestions', data)
+      .then(() => {
+        setLoading(false);
+        console.log(data)
+      })
+      .catch((error) => {
+        setLoading(false);
+        alert('An error happened. Please Chack console');
+        console.log(error);
+      });
+  }
+
+  
+
   return (
-    
     <div
       className={`${bgColor} ${top} w-100  px-3 pt-3 pb-3 border-6 border-[${colorDark}] rounded-2xl gap-2 items-center animate__animated ${
         isSuggestion ? "animate__fadeInRight" : "animate__fadeOutRight"
       }`}
-      >
-      <p className={`text-center font-bold text-white text-lg mb-4`}>comment your suggestions here!</p>
+    >
+      <p className={`text-center font-bold text-white text-lg mb-4`}>
+        comment your suggestions here!
+      </p>
       <div className="flex gap-3">
-
-      <img className="size-15" src="/imgs/suggestions_img/blue.PNG"></img>
-      <div className="flex-1 flex flex-col gap-1">
-        <input
+        <img className="size-15" src="/imgs/suggestions_img/blue.PNG"></img>
+        <form
+          method="POST"
+          onSubmit={handleSubmit}
+          className="flex-1 flex flex-col gap-1"
+        >
+          <input name="author"
             className={`font-medium text-[${colorLight}] w-35 rounded-lg bg-white px-2  ${borderColor} border-4 focus:outline-0`}
           ></input>
-        {/* <p className={`font-bold text-[${colorDark}] text-lg`}>ayessa</p> */}
-        <div className="flex gap-2">
-          <input
-            className={`font-medium text-[${colorLight}]  rounded-lg flex-1 bg-white px-2 py-1 ${borderColor} border-4 focus:outline-0`}
-          ></input>
-          <img
-            className="size-10 pointer"
-            src="/imgs/suggestions_send/blue.PNG"
-          ></img>
-        </div>
-        {/* <input className={`font-medium text-[${colorLight}]`}>i want more animals</input> */}
-      </div>
-      <div className="flex items-center right-0"></div>
+          {/* <p className={`font-bold text-[${colorDark}] text-lg`}>ayessa</p> */}
+          <div className="flex gap-2">
+            <input name="text"
+              className={`font-medium text-[${colorLight}]  rounded-lg flex-1 bg-white px-2 py-1 ${borderColor} border-4 focus:outline-0`}
+            ></input>
+            <button>
+              <img
+                className="size-10 pointer"
+                src="/imgs/suggestions_send/blue.PNG"
+              ></img>
+            </button>
+          </div>
+          {/* <input className={`font-medium text-[${colorLight}]`}>i want more animals</input> */}
+        </form>
+        <div className="flex items-center right-0"></div>
       </div>
     </div>
-    
   );
 }
 

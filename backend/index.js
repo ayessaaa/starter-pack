@@ -11,6 +11,8 @@ const app = express();
 // middleware
 app.use(express.json());
 
+app.use(cors())
+
 const port = process.env.PORT || 3000;
 const mongodb_url = process.env.MONGODB_URL
 
