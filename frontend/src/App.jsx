@@ -3,6 +3,8 @@ import html2canvas from "html2canvas";
 import "./App.css";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_BASE_URL;
+
 function App() {
   const [packColor, setPackColor] = useState("blue");
   const [packScale, setPackScale] = useState(false);
@@ -46,7 +48,7 @@ function App() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`http://localhost:5000/suggestions/`)
+      .get(`${API_URL}/suggestions/`)
       .then((response) => {
         setSuggestions(response.data.data);
         console.log(response.data.data);
@@ -873,7 +875,7 @@ function SuggestionComment({
     };
     setLoading(true);
     axios
-      .post('http://localhost:5000/suggestions', data)
+      .post(`${API_URL}/suggestions`, data)
       .then(() => {
         setLoading(false);
         console.log(data)
