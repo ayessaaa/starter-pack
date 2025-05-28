@@ -5,6 +5,19 @@ import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
+const colors = {
+  red1: "#51160d",
+  red2: "#d45b65",
+  yellow1: "#51450d",
+  yellow2: "#deb75e",
+  green1: "#0d5114",
+  green2: "#9bbf6c",
+  blue1: "#0d3451",
+  blue2: "#5bb0d2",
+  purple1: "#470d53",
+  purple2: "#c96baf",
+};
+
 function App() {
   const [packColor, setPackColor] = useState("blue");
   const [packScale, setPackScale] = useState(false);
@@ -58,7 +71,7 @@ function App() {
         console.log(error);
         setLoading(false);
       });
-  }, [suggestions, setSuggestions]);
+  }, []);
 
   useEffect(() => {
     const images = [
@@ -682,6 +695,10 @@ function App() {
           color={packColor}
           suggestions={suggestions}
           setSuggestions={setSuggestions}
+          headNumber={skin}
+          hairNumber={hair}
+          eyesNumber={eyes}
+          packColor={packColor}
         />
       </div>
     </div>
@@ -783,7 +800,15 @@ function Arrow({
   );
 }
 
-function Suggestions({ color, suggestions, setSuggestions }) {
+function Suggestions({
+  color,
+  suggestions,
+  setSuggestions,
+  headNumber,
+  hairNumber,
+  eyesNumber,
+  packColor,
+}) {
   const [isSuggestionsIcon, setIsSuggestionsIcon] = useState(false);
   console.log(suggestions);
 
@@ -805,22 +830,28 @@ function Suggestions({ color, suggestions, setSuggestions }) {
       <div className="absolute top-40 right-10 flex flex-col gap-3">
         {suggestions.map((suggest, index) => (
           <Suggestion
-            colorDark="#0d3451"
-            colorLight="#639ec9"
+            colorDark={colors[suggest.color + "1"]}
+            colorLight={colors[suggest.color + "2"]}
             isSuggestion={isSuggestionsIcon}
             author={suggest.author}
             text={suggest.text}
             key={index}
+            headNumber={suggest.skin}
+            hairNumber={suggest.hair}
+            eyesNumber={suggest.eyes}
+            color={suggest.color}
           />
         ))}
         <SuggestionComment
           suggestions={suggestions}
           setSuggestions={setSuggestions}
-          colorDark="#0d3451"
-          colorLight="#639ec9"
+          colorDark={colors[packColor + "1"]}
+          colorLight={colors[packColor + "2"]}
           isSuggestion={isSuggestionsIcon}
-          bgColor="bg-[#5bb0d2]"
-          borderColor="border-[#0d3451]"
+          headNumber={headNumber}
+          hairNumber={hairNumber}
+          eyesNumber={eyesNumber}
+          packColor={packColor}
         />
       </div>
     </>
@@ -833,24 +864,37 @@ function Suggestion({
   isSuggestion,
   author,
   text,
+  headNumber,
+  hairNumber,
+  eyesNumber,
+  color,
 }) {
   return (
     <div
-      className={`bg-white  w-100 flex px-3 py-2 border-6 border-[${colorDark}] rounded-2xl gap-2 items-center animate__animated ${
+      className={`transition-all bg-white  w-100 flex px-4 border-6 border-[${colorDark}] rounded-2xl gap-3 items-center animate__animated ${
         isSuggestion ? "animate__fadeInRight" : "animate__fadeOutRight"
       }`}
     >
-      <img className="size-15" src="/imgs/suggestions_img/blue.PNG"></img>
+      <div className="mt-3">
+        <img className="size-15" src={`/imgs/suggestions_pfp/${color}.PNG`}></img>
+        <img
+          className="h-17 -mt-13 mx-auto"
+          src={`/imgs/box1/head/${headNumber}.PNG`}
+        ></img>
+        <img
+          className="h-17 -mt-17 mx-auto"
+          src={`/imgs/box1/hairf/${hairNumber}.PNG`}
+        ></img>
+        <img
+          className="h-17 -mt-17 mx-auto"
+          src={`/imgs/box1/eyes/${eyesNumber}.PNG`}
+        ></img>
+      </div>
       <div className="flex-1">
         <p className={`font-bold text-[${colorDark}] text-lg`}>{author}</p>
         <p className={`font-medium text-[${colorLight}]`}>{text}</p>
       </div>
       <div className="flex items-center right-0">
-        <img
-          className="size-12 pointer"
-          src="/imgs/suggestions_like/blue.PNG"
-        ></img>
-        <p className={`font-bold text-lg text-[${colorDark}]`}>1</p>
       </div>
     </div>
   );
@@ -864,12 +908,13 @@ function SuggestionComment({
   borderColor,
   suggestions,
   setSuggestions,
+  headNumber,
+  hairNumber,
+  eyesNumber,
+  packColor,
 }) {
   const [text, setText] = useState("");
   const [author, setAuthor] = useState("");
-  const [skin, setSkin] = useState("");
-  const [hair, setHair] = useState("");
-  const [eyes, setEyes] = useState("");
   const [likes, setLikes] = useState("");
   const [time, setTime] = useState(83748385);
   const [loading, setLoading] = useState(false);
@@ -879,18 +924,20 @@ function SuggestionComment({
     const data = {
       text,
       author,
-      skin,
-      hair,
-      eyes,
+      skin: headNumber,
+      hair: hairNumber,
+      eyes: eyesNumber,
       likes,
       time,
+      color:packColor
     };
     setLoading(true);
     axios
       .post(`${API_URL}/suggestions`, data)
       .then(() => {
         setLoading(false);
-        setSuggestions(prev => [...prev, data])
+        setSuggestions((prev) => [...prev, data]);
+        console.log(data);
       })
       .catch((error) => {
         setLoading(false);
@@ -898,23 +945,49 @@ function SuggestionComment({
         console.log(error);
       });
 
-    setText("")
-    setAuthor("")
-
-    
+    setText("");
+    setAuthor("");
   }
 
   return (
     <div
-      className={`${bgColor} ${top} w-100  px-3 pt-3 pb-3 border-6 border-[${colorDark}] rounded-2xl gap-2 items-center animate__animated ${
+      className={` ${top} transition-all w-100  px-3 pt-3 pb-3 border-6 border-[${colorDark}] rounded-2xl gap-2 items-center animate__animated ${
         isSuggestion ? "animate__fadeInRight" : "animate__fadeOutRight"
-      }`}
+      }
+    ${
+      packColor === "red"
+        ? "bg-[#d45b65]"
+        : packColor === "yellow"
+        ? "bg-[#deb75e]"
+        : packColor === "green"
+        ? "bg-[#9bbf6c]"
+        : packColor === "blue"
+        ? "bg-[#5bb0d2]"
+        : "bg-[#c96baf]"
+    }`}
     >
       <p className={`text-center font-bold text-white text-lg mb-4`}>
         comment your suggestions here!
       </p>
       <div className="flex gap-3">
-        <img className="size-15" src="/imgs/suggestions_img/blue.PNG"></img>
+        <div className="">
+          <img
+            className="size-15"
+            src={`/imgs/suggestions_pfp/${packColor}.PNG`}
+          ></img>
+          <img
+            className="h-17 -mt-13 mx-auto"
+            src={`/imgs/box1/head/${headNumber}.PNG`}
+          ></img>
+          <img
+            className="h-17 -mt-17 mx-auto"
+            src={`/imgs/box1/hairf/${hairNumber}.PNG`}
+          ></img>
+          <img
+            className="h-17 -mt-17 mx-auto"
+            src={`/imgs/box1/eyes/${eyesNumber}.PNG`}
+          ></img>
+        </div>
         <form
           method="POST"
           onSubmit={handleSubmit}
@@ -924,7 +997,7 @@ function SuggestionComment({
             name="author"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
-            className={`font-medium text-[${colorLight}] w-35 rounded-lg bg-white px-2  ${borderColor} border-4 focus:outline-0`}
+            className={`font-medium text-[${colorLight}] w-35 rounded-lg bg-white px-2  border-[${colorDark}] border-4 focus:outline-0`}
           ></input>
           {/* <p className={`font-bold text-[${colorDark}] text-lg`}>ayessa</p> */}
           <div className="flex gap-2">
@@ -932,12 +1005,12 @@ function SuggestionComment({
               name="text"
               value={text}
               onChange={(e) => setText(e.target.value)}
-              className={`font-medium text-[${colorLight}]  rounded-lg flex-1 bg-white px-2 py-1 ${borderColor} border-4 focus:outline-0`}
+              className={`font-medium text-[${colorLight}]  rounded-lg flex-1 bg-white px-2 py-1 border-[${colorDark}] border-4 focus:outline-0`}
             ></input>
             <button>
               <img
                 className="size-10 pointer"
-                src="/imgs/suggestions_send/blue.PNG"
+                src={`/imgs/suggestions_send/${packColor}.PNG`}
               ></img>
             </button>
           </div>

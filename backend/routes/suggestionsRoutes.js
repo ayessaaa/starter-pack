@@ -14,6 +14,10 @@ router.post("/", async (req, res) => {
     const newSuggestion = {
       text: req.body.text,
       author: req.body.author,
+      skin: req.body.skin,
+      hair: req.body.hair,
+      eyes: req.body.eyes,
+      color: req.body.color
     };
 
     const suggestion = await Suggestion.create(newSuggestion);
