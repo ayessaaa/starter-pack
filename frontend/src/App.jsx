@@ -25,7 +25,7 @@ function App() {
   const [isBox1, setIsBox1] = useState(false);
   const [isBoxZoom1, setIsBoxZoom1] = useState(false);
   const [isBoxHover1, setIsBoxHover1] = useState(false);
-  const [bodyPartActive, setBoxPartActive] = useState("skin");
+  const [bodyPartActive, setBodyPartActive] = useState("skin");
 
   const [isBox2, setIsBox2] = useState(false);
   const [isBoxZoom2, setIsBoxZoom2] = useState(false);
@@ -47,13 +47,14 @@ function App() {
   const [eyes, setEyes] = useState(1);
   const [top, setTop] = useState(1);
   const [bottom, setBottom] = useState(1);
+  const [shoes, setShoes] = useState(1);
 
   const [isMusicActive, setIsMusicActive] = useState(false);
 
   const characterRef = useRef(null);
 
   const hairbNumbers = [6, 7, 8];
-  const partsLimit = { skin: 6, hair: 8, eyes: 2, top: 9, bottom: 5 };
+  const partsLimit = { skin: 6, hair: 8, eyes: 2, top: 9, bottom: 5, shoes: 5 };
 
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -224,6 +225,8 @@ function App() {
                         ? setTop
                         : bodyPartActive === "bottom"
                         ? setBottom
+                        : bodyPartActive === "shoes"
+                        ? setShoes
                         : ""
                     }
                     part={
@@ -237,6 +240,8 @@ function App() {
                         ? top
                         : bodyPartActive === "bottom"
                         ? bottom
+                        : bodyPartActive === "shoes"
+                        ? shoes
                         : ""
                     }
                     limit={partsLimit[bodyPartActive]}
@@ -291,6 +296,12 @@ function App() {
                         }`}
                       ></img>
                     )}
+                    <img
+                      src={`/imgs/box1/shoes/${shoes}.PNG`}
+                      className={`z-60 animate__animated animate__faster ${
+                        packScale ? "animate__pulse" : ""
+                      }`}
+                    ></img>
                   </div>
                   <Arrow
                     direction="right"
@@ -306,6 +317,8 @@ function App() {
                         ? setTop
                         : bodyPartActive === "bottom"
                         ? setBottom
+                        : bodyPartActive === "shoes"
+                        ? setShoes
                         : ""
                     }
                     part={
@@ -319,6 +332,8 @@ function App() {
                         ? top
                         : bodyPartActive === "bottom"
                         ? bottom
+                        : bodyPartActive === "shoes"
+                        ? shoes
                         : ""
                     }
                     limit={partsLimit[bodyPartActive]}
@@ -330,58 +345,69 @@ function App() {
                   } transition-all duration-500`}
                 >
                   <img
-                    className={`size-8 pointer  hover:scale-105 transition-all ${
+                    className={`ml-2 size-7.5 pointer  hover:scale-105 transition-all ${
                       bodyPartActive === "skin" && "-translate-y-0.5"
                     }`}
                     src={`/imgs/box1/parts-${
                       bodyPartActive === "skin" ? "active" : "na"
                     }/${packColor}/skin.PNG`}
                     onClick={() => {
-                      setBoxPartActive("skin");
+                      setBodyPartActive("skin");
                     }}
                   ></img>
                   <img
-                    className={`size-8 pointer hover:scale-105 transition-all ${
+                    className={`size-7.5 pointer hover:scale-105 transition-all ${
                       bodyPartActive === "hair" && "-translate-y-0.5"
                     }`}
                     src={`/imgs/box1/parts-${
                       bodyPartActive === "hair" ? "active" : "na"
                     }/${packColor}/hair.PNG`}
                     onClick={() => {
-                      setBoxPartActive("hair");
+                      setBodyPartActive("hair");
                     }}
                   ></img>
                   <img
-                    className={`size-8 pointer hover:scale-105 transition-all ${
+                    className={`size-7.5 pointer hover:scale-105 transition-all ${
                       bodyPartActive === "eyes" && "-translate-y-0.5"
                     }`}
                     src={`/imgs/box1/parts-${
                       bodyPartActive === "eyes" ? "active" : "na"
                     }/${packColor}/eyes.PNG`}
                     onClick={() => {
-                      setBoxPartActive("eyes");
+                      setBodyPartActive("eyes");
                     }}
                   ></img>
                   <img
-                    className={`size-8 pointer hover:scale-105 transition-all ${
+                    className={`size-7.5 pointer hover:scale-105 transition-all ${
                       bodyPartActive === "top" && "-translate-y-0.5"
                     }`}
                     src={`/imgs/box1/parts-${
                       bodyPartActive === "top" ? "active" : "na"
                     }/${packColor}/top.PNG`}
                     onClick={() => {
-                      setBoxPartActive("top");
+                      setBodyPartActive("top");
                     }}
                   ></img>
                   <img
-                    className={`size-8 pointer hover:scale-105 transition-all ${
+                    className={`size-7.5 pointer hover:scale-105 transition-all ${
                       bodyPartActive === "bottom" && "-translate-y-0.5"
                     }`}
                     src={`/imgs/box1/parts-${
                       bodyPartActive === "bottom" ? "active" : "na"
                     }/${packColor}/bottom.PNG`}
                     onClick={() => {
-                      setBoxPartActive("bottom");
+                      setBodyPartActive("bottom");
+                    }}
+                  ></img>
+                  <img
+                    className={`size-7.5 pointer hover:scale-105 transition-all ${
+                      bodyPartActive === "shoes" && "-translate-y-0.5"
+                    }`}
+                    src={`/imgs/box1/parts-${
+                      bodyPartActive === "shoes" ? "active" : "na"
+                    }/${packColor}/shoes.PNG`}
+                    onClick={() => {
+                      setBodyPartActive("shoes");
                     }}
                   ></img>
                 </div>
@@ -876,7 +902,10 @@ function Suggestion({
       }`}
     >
       <div className="mt-3">
-        <img className="size-15" src={`/imgs/suggestions_pfp/${color}.PNG`}></img>
+        <img
+          className="size-15"
+          src={`/imgs/suggestions_pfp/${color}.PNG`}
+        ></img>
         <img
           className="h-17 -mt-13 mx-auto"
           src={`/imgs/box1/head/${headNumber}.PNG`}
@@ -894,8 +923,7 @@ function Suggestion({
         <p className={`font-bold text-[${colorDark}] text-lg`}>{author}</p>
         <p className={`font-medium text-[${colorLight}]`}>{text}</p>
       </div>
-      <div className="flex items-center right-0">
-      </div>
+      <div className="flex items-center right-0"></div>
     </div>
   );
 }
@@ -929,7 +957,7 @@ function SuggestionComment({
       eyes: eyesNumber,
       likes,
       time,
-      color:packColor
+      color: packColor,
     };
     setLoading(true);
     axios
@@ -1021,5 +1049,6 @@ function SuggestionComment({
     </div>
   );
 }
+
 
 export default App;
