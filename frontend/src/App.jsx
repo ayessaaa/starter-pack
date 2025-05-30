@@ -150,9 +150,10 @@ function App() {
         <GridBG packColor={packColor} />
 
         <div className="flex flex-col items-center  transition-all">
+          <NameInput packColor={packColor}/>
           <div
             ref={characterRef}
-            className={`w-250 absolute mx-auto mt-5 pb-25 ${
+            className={`w-250 absolute mx-auto mt-23 pb-25 ${
               (isBoxHover1 | isBoxHover2 | isBoxHover3 | isBoxHover4) &
                 !isBox1 &
                 !isBox2 &
@@ -163,7 +164,7 @@ function App() {
             } ${isBoxZoom4 && "zoom4"} pack1`}
           >
             <img
-              src={`/imgs/bgs/${packColor}.PNG`}
+              src={`/imgs/bgs/${packColor}1.PNG`}
               className={`w-250 absolute mx-auto z-0 transition-all pack  animate__animated animate__faster ${
                 packScale ? "animate__pulse" : ""
               }`}
@@ -648,7 +649,7 @@ function App() {
           </div>
 
           <div
-            className="w-120 colordiv mt-150 -ml-7"
+            className="w-120 colordiv mt-135 -ml-7"
             style={{
               backgroundImage: `url('/imgs/colordivs/${packColor}.PNG')`,
             }}
@@ -697,7 +698,7 @@ function App() {
               />
             </div>
           </div>
-          <div className="flex -mt-15">
+          <div className="flex -mt-23">
             <audio
               type="audio/mp3"
               src="/music/bgmusic.mp3"
@@ -707,14 +708,16 @@ function App() {
             <img
               src={`/imgs/music/${isMusicActive ? "active" : "notactive"}.PNG`}
               onClick={startMusic}
-              className="h-20 hover:scale-105 transition-all pointer"
+              className="h-18 hover:scale-105 transition-all pointer"
             />
 
             <img
               src={`/imgs/save/${packColor}.PNG`}
               onClick={handleSave}
-              className=" h-20 rounded-3xl pointer hover:scale-105 transition-all"
+              className=" h-18 rounded-3xl pointer hover:scale-105 transition-all"
             ></img>
+
+            <Link packColor={packColor}/>
           </div>
         </div>
         <Suggestions
@@ -920,8 +923,8 @@ function Suggestion({
         ></img>
       </div>
       <div className="flex-1">
-        <p className={`font-bold text-[${colorDark}] text-lg`}>{author}</p>
-        <p className={`font-medium text-[${colorLight}]`}>{text}</p>
+        <p className={`font-bold text-[${colorDark}] text-2xl`}>{author}</p>
+        <p className={`font-medium text-[${colorLight}] text-xl`}>{text}</p>
       </div>
       <div className="flex items-center right-0"></div>
     </div>
@@ -994,7 +997,7 @@ function SuggestionComment({
         : "bg-[#c96baf]"
     }`}
     >
-      <p className={`text-center font-bold text-white text-lg mb-4`}>
+      <p className={`text-center font-bold text-white text-2xl mb-4`}>
         comment your suggestions here!
       </p>
       <div className="flex gap-3">
@@ -1025,7 +1028,7 @@ function SuggestionComment({
             name="author"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
-            className={`font-medium text-[${colorLight}] w-35 rounded-lg bg-white px-2  border-[${colorDark}] border-4 focus:outline-0`}
+            className={`text-xl font-medium text-[${colorLight}] w-35 rounded-lg bg-white px-2  border-[${colorDark}] border-4 focus:outline-0`}
           ></input>
           {/* <p className={`font-bold text-[${colorDark}] text-lg`}>ayessa</p> */}
           <div className="flex gap-2">
@@ -1033,7 +1036,7 @@ function SuggestionComment({
               name="text"
               value={text}
               onChange={(e) => setText(e.target.value)}
-              className={`font-medium text-[${colorLight}]  rounded-lg flex-1 bg-white px-2 py-1 border-[${colorDark}] border-4 focus:outline-0`}
+              className={`text-lg font-medium text-[${colorLight}]  rounded-lg flex-1 bg-white px-2 pt-1 border-[${colorDark}] border-4 focus:outline-0`}
             ></input>
             <button>
               <img
@@ -1048,6 +1051,22 @@ function SuggestionComment({
       </div>
     </div>
   );
+}
+
+function Link({packColor}){
+  return(
+    <img className="h-17 rounded-3xl pointer hover:scale-105 transition-all" src={`/imgs/link/${packColor}.PNG`}></img>
+  )
+}
+
+function NameInput({packColor}){
+  return(
+    <>
+    <input className="absolute top-16 text-4xl w-30 focus:outline-0 text-center text-[#08233b]" placeholder="name">
+    </input>
+    <img className="h-20 mt-10" src="/imgs/nametag/blue.PNG"></img>
+    </>
+  )
 }
 
 
