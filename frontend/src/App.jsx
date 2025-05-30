@@ -59,6 +59,8 @@ function App() {
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const [name, setName] = useState("");
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -150,7 +152,7 @@ function App() {
         <GridBG packColor={packColor} />
 
         <div className="flex flex-col items-center  transition-all">
-          <NameInput packColor={packColor}/>
+          <NameInput packColor={packColor} name={name} setName={setName} />
           <div
             ref={characterRef}
             className={`w-250 absolute mx-auto mt-23 pb-25 ${
@@ -165,9 +167,7 @@ function App() {
           >
             <img
               src={`/imgs/bgs/${packColor}1.PNG`}
-              className={`w-250 absolute mx-auto z-0 transition-all pack  animate__animated animate__faster ${
-                packScale ? "animate__pulse" : ""
-              }`}
+              className={`w-250 absolute mx-auto z-0 transition-all pack  `}
             ></img>
             <div className="flex">
               <div
@@ -644,6 +644,7 @@ function App() {
                     </div>
                   </div>
                 </div>
+                <NameTag packColor={packColor} name={name} setName={setName} />
               </div>
             </div>
           </div>
@@ -717,7 +718,7 @@ function App() {
               className=" h-18 rounded-3xl pointer hover:scale-105 transition-all"
             ></img>
 
-            <Link packColor={packColor}/>
+            <Link packColor={packColor} />
           </div>
         </div>
         <Suggestions
@@ -728,6 +729,7 @@ function App() {
           hairNumber={hair}
           eyesNumber={eyes}
           packColor={packColor}
+          name={name}
         />
       </div>
     </div>
@@ -837,6 +839,7 @@ function Suggestions({
   hairNumber,
   eyesNumber,
   packColor,
+  name
 }) {
   const [isSuggestionsIcon, setIsSuggestionsIcon] = useState(false);
   console.log(suggestions);
@@ -881,6 +884,7 @@ function Suggestions({
           hairNumber={hairNumber}
           eyesNumber={eyesNumber}
           packColor={packColor}
+          name={name}
         />
       </div>
     </>
@@ -943,6 +947,7 @@ function SuggestionComment({
   hairNumber,
   eyesNumber,
   packColor,
+  name
 }) {
   const [text, setText] = useState("");
   const [author, setAuthor] = useState("");
@@ -1025,14 +1030,15 @@ function SuggestionComment({
           className="flex-1 flex flex-col gap-1"
         >
           <input
+            placeholder="name"
             name="author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-            className={`text-xl font-medium text-[${colorLight}] w-35 rounded-lg bg-white px-2  border-[${colorDark}] border-4 focus:outline-0`}
+            value={name}
+            className={`text-2xl font-medium text-white w-35 rounded-lg px-2 -mt-1 border-[${colorDark}]  focus:outline-0`}
           ></input>
           {/* <p className={`font-bold text-[${colorDark}] text-lg`}>ayessa</p> */}
-          <div className="flex gap-2">
+          <div className="flex gap-2 -mt-2">
             <input
+              placeholder="comment"
               name="text"
               value={text}
               onChange={(e) => setText(e.target.value)}
@@ -1053,21 +1059,70 @@ function SuggestionComment({
   );
 }
 
-function Link({packColor}){
-  return(
-    <img className="h-17 rounded-3xl pointer hover:scale-105 transition-all" src={`/imgs/link/${packColor}.PNG`}></img>
-  )
+function Link({ packColor }) {
+  return (
+    <img
+      className="h-17 rounded-3xl pointer hover:scale-105 transition-all"
+      src={`/imgs/link/${packColor}.PNG`}
+    ></img>
+  );
 }
 
-function NameInput({packColor}){
-  return(
+function NameInput({ packColor, name, setName }) {
+  return (
     <>
-    <input className="absolute top-16 text-4xl w-30 focus:outline-0 text-center text-[#08233b]" placeholder="name">
-    </input>
-    <img className="h-20 mt-10" src="/imgs/nametag/blue.PNG"></img>
+      <input
+        className={`absolute top-16 text-4xl w-30 focus:outline-0 text-center ${
+          packColor === "red"
+            ? "text-[#51160d]"
+            : packColor === "yellow"
+            ? "text-[#51450d]"
+            : packColor === "green"
+            ? "text-[#0d5114]"
+            : packColor === "blue"
+            ? "text-[#0d3451]"
+            : "text-[#470d53]"
+        }`}
+        placeholder="name"
+        onChange={(e) => setName(e.target.value)}
+        value={name}
+        maxLength={11}
+      ></input>
+      <img className="h-20 mt-10" src={`/imgs/nametag/${packColor}.PNG`}></img>
     </>
-  )
+  );
 }
 
+function NameTag({ packColor, name }) {
+  return (
+    <>
+      <img
+        className={`h-12.5  z-50 mt-19 mx-auto transition-all ${
+          name.length >= 10
+            ? "w-46 ml-9"
+            : name.length >= 8
+            ? "w-38 ml-12"
+            : "w-30 ml-16"
+        }`}
+        src={`/imgs/nametag/${packColor}.PNG`}
+      ></img>
+      <span
+        className={`ml-16 z-60 text-2xl w-30 text-center -mt-9.5 ${
+          packColor === "red"
+            ? "text-[#51160d]"
+            : packColor === "yellow"
+            ? "text-[#51450d]"
+            : packColor === "green"
+            ? "text-[#0d5114]"
+            : packColor === "blue"
+            ? "text-[#0d3451]"
+            : "text-[#470d53]"
+        }`}
+      >
+        {name}
+      </span>
+    </>
+  );
+}
 
 export default App;
