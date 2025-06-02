@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import "./App.css";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -54,7 +55,14 @@ function App() {
   const characterRef = useRef(null);
 
   const hairbNumbers = [6, 7, 8];
-  const partsLimit = { skin: 6, hair: 8, eyes: 2, top: 9, bottom: 5, shoes: 5 };
+  const partsLimit = {
+    skin: 6,
+    hair: 8,
+    eyes: 2,
+    top: 10,
+    bottom: 5,
+    shoes: 6,
+  };
 
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -718,7 +726,19 @@ function App() {
               className=" h-18 rounded-3xl pointer hover:scale-105 transition-all"
             ></img>
 
-            <Link packColor={packColor} />
+            <Link
+              packColor={packColor}
+              name={name}
+              skin={skin}
+              hair={hair}
+              eyes={eyes}
+              top={top}
+              bottom={bottom}
+              shoes={shoes}
+              box2={box2}
+              box3={box3}
+              box4={box4}
+            />
           </div>
         </div>
         <Suggestions
@@ -839,7 +859,7 @@ function Suggestions({
   hairNumber,
   eyesNumber,
   packColor,
-  name
+  name,
 }) {
   const [isSuggestionsIcon, setIsSuggestionsIcon] = useState(false);
   console.log(suggestions);
@@ -947,7 +967,7 @@ function SuggestionComment({
   hairNumber,
   eyesNumber,
   packColor,
-  name
+  name,
 }) {
   const [text, setText] = useState("");
   const [author, setAuthor] = useState("");
@@ -1059,11 +1079,51 @@ function SuggestionComment({
   );
 }
 
-function Link({ packColor }) {
+function Link({
+  packColor,
+  name,
+  skin,
+  hair,
+  eyes,
+  top,
+  bottom,
+  shoes,
+  box2,
+  box3,
+  box4,
+}) {
+  const navigate = useNavigate();
+  function handleSubmit() {
+    const data = {
+      name,
+      skin,
+      hair,
+      eyes,
+      top,
+      bottom,
+      shoes,
+      box2,
+      box3,
+      box4,
+      color: packColor,
+    };
+    axios
+      .post(`${API_URL}/starter-pack`, data)
+      .then((res) => {
+        console.log(res);
+        navigate(`/${res.data._id}`);
+      })
+      .catch((error) => {
+        alert("An error happened. Please Check console");
+        console.log(error);
+      });
+  }
+
   return (
     <img
       className="h-17 rounded-3xl pointer hover:scale-105 transition-all"
       src={`/imgs/link/${packColor}.PNG`}
+      onClick={handleSubmit}
     ></img>
   );
 }

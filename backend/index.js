@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from 'cors'
 import dotenv from 'dotenv';
 import suggestionsRoutes from './routes/suggestionsRoutes.js';
+import starterPackRoutes from './routes/starterPackRoutes.js';
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/suggestions", suggestionsRoutes)
+app.use("/starter-pack", starterPackRoutes)
 
 mongoose
   .connect(mongodb_url)
