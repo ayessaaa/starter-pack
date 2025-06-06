@@ -163,7 +163,7 @@ function App() {
           <NameInput packColor={packColor} name={name} setName={setName} />
           <div
             ref={characterRef}
-            className={`md:w-250 w-170 absolute mx-auto mt-23 pb-25 ${
+            className={`w-250 absolute mx-auto mt-23 pb-25 ${
               (isBoxHover1 | isBoxHover2 | isBoxHover3 | isBoxHover4) &
                 !isBox1 &
                 !isBox2 &
@@ -175,13 +175,13 @@ function App() {
           >
             <img
               src={`/imgs/bgs/${packColor}1.PNG`}
-              className={`md:w-250 w-170 absolute mx-auto z-0 transition-all pack  `}
+              className={`w-250 absolute mx-auto z-0 transition-all pack  `}
             ></img>
             <div className="flex">
               <div
                 className={`${
                   !isBox1 && "pointer"
-                } md:w-60 w-10 ml-65 md:mt-58 mt-35 h-85 z-10 flex flex-col`}
+                } w-60 ml-65 mt-58 h-85 z-10 flex flex-col`}
                 onClick={() => {
                   boxClick(setIsBox1, setIsBoxHover1);
                   setIsBox2(false);
@@ -205,7 +205,7 @@ function App() {
                     onClickZoom={
                       isBox1 | isBox2 | isBox3 | isBox4 ? onZoom : boxClick
                     }
-                    margin="md:ml-9 -ml-16 md:mt-8 mt-10"
+                    margin="ml-9 mt-8"
                     isBoxZoom={isBoxZoom1}
                     setIsBoxZoom={setIsBoxZoom1}
                   />
@@ -215,11 +215,11 @@ function App() {
                     onClickX={
                       isBox1 | isBox2 | isBox3 | isBox4 ? onClose : boxClick
                     }
-                    margin="md:ml-31 ml-20 md:mt-8 mt-10"
+                    margin="ml-31 mt-8"
                     setIsBoxZoom={setIsBoxZoom1}
                   />
                 </div>
-                <div className="flex items-center -mt-5 justify-center md:w-full w-50 pl-5 pr-4">
+                <div className="flex items-center -mt-5 justify-center w-full pl-5 pr-4">
                   <Arrow
                     direction="left"
                     isBox={isBox1}
@@ -254,11 +254,10 @@ function App() {
                         : ""
                     }
                     limit={partsLimit[bodyPartActive]}
-                    margin={"md:ml-0 -ml-22"}
                   />
                   <div
                     className={`flex-1 h-[265px]  *:absolute *:transition-all *:duration-300 ${
-                      isBox1 ? "*:md:w-50 *:w-35 *:md:-ml-8 *:-ml-8 " : "*:md:w-55 *:w-40 *:md:-ml-10 *:-ml-11"
+                      isBox1 ? "*:w-50 *:-ml-8 " : "*:w-55 *:-ml-10 "
                     }
             }`}
                   >
@@ -347,7 +346,6 @@ function App() {
                         : ""
                     }
                     limit={partsLimit[bodyPartActive]}
-                    margin={"mr-29"}
                   />
                 </div>
                 <div
@@ -839,7 +837,7 @@ function Arrow({
   return (
     <img
       src="/imgs/left.PNG"
-      className={`md:size-8 size-7  ${
+      className={`${size}  ${
         operation === 0 ? "default" : "pointer"
       } transition-all z-100 ${margin} hover:  ${
         direction === "right"
@@ -981,7 +979,7 @@ function SuggestionComment({
     event.preventDefault();
     const data = {
       text,
-      author,
+      author: name,
       skin: headNumber,
       hair: hairNumber,
       eyes: eyesNumber,
@@ -1004,7 +1002,6 @@ function SuggestionComment({
       });
 
     setText("");
-    setAuthor("");
   }
 
   return (
